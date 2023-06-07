@@ -4,10 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faSpinner, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Tippy from '@tippyjs/react/headless';
 
+import Button from '~/components/Button';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import logoHome from '~/assets/img/logomahnBatFinal.png';
 import styles from './Header.module.scss';
-import ProductsItem from '../../../ProductsItem';
+import ProductsItem from '~/components/ProductsItem';
 
 const cx = classNames.bind(styles);
 
@@ -53,7 +54,18 @@ function Header() {
                         </button>
                     </div>
                 </Tippy>
-                <div className={cx('action')}></div>
+                <div className={cx('action')}>
+                    {/* <Button primary to="/products" target="_blank">
+                        Đăng nhập
+                    </Button> */}
+                    {/* <Button primary leftIcon={<FontAwesomeIcon icon={faSignIn} />}>
+                        Đăng nhập
+                    </Button> */}
+                    {/* <Button outline className={cx('login-btn')}>
+                        Đăng nhập
+                    </Button> */}
+                    <Button primary>Đăng nhập</Button>
+                </div>
             </div>
         </header>
     );
