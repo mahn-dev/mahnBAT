@@ -43,3 +43,23 @@ a[href] {
     color: var(--text-color);
     text-decoration: none;
 }
+
+body {
+    .tippy-box {
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 1.4rem;
+        line-height: 2.2rem;
+        background-color: var(--primary-color);
+        opacity: 0.8;
+    }
+
+    .tippy-content {
+        padding: 8px 9px;
+    }
+
+    .tippy-arrow {
+        color: var(--primary-color);
+        opacity: 0.8;
+    }
+}

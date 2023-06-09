@@ -9,8 +9,16 @@ import {
     faEarthAsia,
     faBatteryFull,
     faCircleInfo,
+    faTruck,
+    faGear,
+    faGift,
+    faUser,
+    faArrowRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons';
-import Tippy from '@tippyjs/react/headless';
+import { faHeart, faMessage } from '@fortawesome/free-regular-svg-icons';
+import Tippy from '@tippyjs/react';
+import HeadlessTippy from '@tippyjs/react/headless';
+import 'tippy.js/dist/tippy.css';
 
 import Button from '~/components/Button';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
@@ -55,6 +63,8 @@ const MENU_ITEMS = [
 function Header() {
     const [searchResult, setSearchResult] = useState([]);
 
+    const currentUser = true;
+
     useEffect(() => {
         setTimeout(() => {
             setSearchResult([]);
@@ -69,13 +79,38 @@ function Header() {
         }
     };
 
+    const userMenu = [
+        {
+            icon: <FontAwesomeIcon icon={faUser} />,
+            title: 'Tài khoản của tôi',
+            to: '/myaccount',
+        },
+        {
+            icon: <FontAwesomeIcon icon={faGift} />,
+            title: 'Mã giảm giá',
+            to: '/voucher',
+        },
+        {
+            icon: <FontAwesomeIcon icon={faGear} />,
+            title: 'Cài đặt',
+            to: '/settings',
+        },
+        ...MENU_ITEMS,
+        {
+            icon: <FontAwesomeIcon icon={faArrowRightFromBracket} />,
+            title: 'Đăng xuất',
+            to: '/logout',
+            separate: true,
+        },
+    ];
+
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
                 <a className={cx('logo-link')} href="/">
                     <img className={cx('logo-src')} src={logoHome} alt="logo" />
                 </a>
-                <Tippy
+                <HeadlessTippy
                     interactive
                     visible={searchResult.length > 0}
                     render={(attrs) => (
@@ -101,22 +136,53 @@ function Header() {
                             <FontAwesomeIcon icon={faMagnifyingGlass} />
                         </button>
                     </div>
-                </Tippy>
+                </HeadlessTippy>
+
                 <div className={cx('action')}>
-                    {/* <Button primary to="/products" target="_blank">
-                        Đăng nhập
-                    </Button> */}
-                    {/* <Button primary leftIcon={<FontAwesomeIcon icon={faSignIn} />}>
-                        Đăng nhập
-                    </Button> */}
-                    {/* <Button outline className={cx('login-btn')}>
-                        Đăng nhập
-                    </Button> */}
-                    <Button primary>Đăng nhập</Button>
-                    <Menu items={MENU_ITEMS} onChange={handleMenuCHange}>
-                        <button className={cx('more-btn')}>
-                            <FontAwesomeIcon icon={faEllipsisVertical} />
-                        </button>
+                    {currentUser ? (
+                        <>
+                            <Tippy content="Sản phẩm yêu thích" placement="bottom">
+                                <button className={cx('action-btn')}>
+                                    <FontAwesomeIcon icon={faHeart} />
+                                </button>
+                            </Tippy>
+                            <Tippy content="Theo dõi đơn hàng" placement="bottom">
+                                <button className={cx('action-btn')}>
+                                    <FontAwesomeIcon icon={faTruck} />
+                                </button>
+                            </Tippy>
+                            <Tippy content="Thông báo" placement="bottom">
+                                <button className={cx('action-btn')}>
+                                    <FontAwesomeIcon icon={faMessage} />
+                                </button>
+                            </Tippy>
+                        </>
+                    ) : (
+                        <>
+                            {/* <Button primary to="/products" target="_blank">
+                            Đăng nhập
+                        </Button> */}
+                            {/* <Button primary leftIcon={<FontAwesomeIcon icon={faSignIn} />}>
+                            Đăng nhập
+                        </Button> */}
+                            {/* <Button outline className={cx('login-btn')}>
+                            Đăng nhập
+                        </Button> */}
+                            <Button primary>Đăng nhập</Button>
+                        </>
+                    )}
+                    <Menu items={currentUser ? userMenu : MENU_ITEMS} onChange={handleMenuCHange}>
+                        {currentUser ? (
+                            <img
+                                className={cx('user-avt')}
+                                src="https://res.cloudinary.com/daily-now/image/upload/f_auto,q_auto/v1/posts/7eb5b67e2ccb838a5986662cb9daf4a3?_a=AQADKdt"
+                                alt=""
+                            />
+                        ) : (
+                            <button className={cx('more-btn')}>
+                                <FontAwesomeIcon icon={faEllipsisVertical} />
+                            </button>
+                        )}
                     </Menu>
                 </div>
             </div>
