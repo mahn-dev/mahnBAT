@@ -15,7 +15,7 @@ import {
 import { faHeart, faMessage } from '@fortawesome/free-regular-svg-icons';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import routesConfig from '~/config/routes';
+import config from '~/config';
 
 import Button from '~/components/Button';
 import image from '~/assets/img';
@@ -96,7 +96,7 @@ function Header() {
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
-                <Link className={cx('logo-link')} to={routesConfig.home}>
+                <Link className={cx('logo-link')} to={config.routes.home}>
                     <img className={cx('logo-src')} src={image.logoHome} alt="logo" />
                 </Link>
 

@@ -1,5 +1,5 @@
-import routesConfig from '~/config/routes';
-import { HeaderOnly } from '~/components/Layout';
+import config from '~/config';
+import { HeaderOnly } from '~/layouts';
 
 import Home from '~/pages/Home';
 import Products from '~/pages/Products';
@@ -8,20 +8,20 @@ import Cart from '~/pages/Cart';
 
 const publicRoutes = [
     {
-        path: routesConfig.home,
+        path: config.routes.home,
         page: Home,
     },
     {
-        path: routesConfig.products,
+        path: config.routes.products,
         page: Products,
     },
     {
-        path: routesConfig.about,
+        path: config.routes.about,
         page: About,
         // layout: null,
     },
     {
-        path: routesConfig.cart,
+        path: config.routes.cart,
         page: Cart,
         layout: HeaderOnly,
     },

@@ -8,7 +8,7 @@ import { Wrapper as PopperWrapper } from '~/components/Popper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faSpinner, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import ProductsItem from '~/components/ProductsItem';
-import * as searchServices from '~/apiServices/searchServices';
+import * as searchServices from '~/services/searchService';
 
 const cx = classNames.bind(styles);
 
