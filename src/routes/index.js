@@ -1,3 +1,4 @@
+import routesConfig from '~/config/routes';
 import { HeaderOnly } from '~/components/Layout';
 
 import Home from '~/pages/Home';
@@ -7,20 +8,20 @@ import Cart from '~/pages/Cart';
 
 const publicRoutes = [
     {
-        path: '/',
+        path: routesConfig.home,
         page: Home,
     },
     {
-        path: '/products',
+        path: routesConfig.products,
         page: Products,
     },
     {
-        path: '/:nickname',
+        path: routesConfig.about,
         page: About,
         // layout: null,
     },
     {
-        path: '/cart',
+        path: routesConfig.cart,
         page: Cart,
         layout: HeaderOnly,
     },

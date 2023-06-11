@@ -1,9 +1,14 @@
 .wrapper {
     --search-border-radius: 12px;
     --search-btn-width: 54px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
     width: 100%;
     height: var(--default-layout-header-height);
     box-shadow: 0px 1px 1px rgb(0 0 0 / 12%);
+    background-color: var(--white);
     display: flex;
     justify-content: center;
 }
@@ -16,8 +21,8 @@
     justify-content: space-between;
 }
 
-.logo-src {
-    display: block;
+.logo-link {
+    display: flex;
     width: 160px;
     height: var(--default-layout-header-height);
     object-fit: contain;
@@ -46,7 +51,7 @@
     right: -4px;
     padding: 0px 6px;
     border-radius: 10px;
-    font-family: 'Krub', sans-serif;
+    font-family: var(--font-family);
     font-size: 1.4rem;
     font-weight: 600;
     color: var(--white);

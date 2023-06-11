@@ -13,7 +13,7 @@
 
     input {
         flex: 1;
-        font-family: 'Krub', sans-serif;
+        font-family: var(--font-family);
         height: 100%;
         font-size: 1.4rem;
         color: var(--text-color);
