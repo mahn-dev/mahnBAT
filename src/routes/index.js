@@ -15,9 +15,9 @@ const publicRoutes = [
         page: Products,
     },
     {
-        path: '/about',
+        path: '/:nickname',
         page: About,
-        layout: null,
+        // layout: null,
     },
     {
         path: '/cart',

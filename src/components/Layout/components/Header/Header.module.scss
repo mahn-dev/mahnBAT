@@ -1,6 +1,6 @@
 .wrapper {
     --search-border-radius: 12px;
-    --search-btn-width: 62px;
+    --search-btn-width: 54px;
     width: 100%;
     height: var(--default-layout-header-height);
     box-shadow: 0px 1px 1px rgb(0 0 0 / 12%);
@@ -23,81 +23,34 @@
     object-fit: contain;
 }
 
-.search,
-.search-result {
-    width: 500px;
-}
-
-.search {
-    position: relative;
-    height: 50px;
-    border: 2px solid #ced4da;
-    border-radius: var(--search-border-radius);
-    padding-left: 20px;
-    display: flex;
-
-    input {
-        flex: 1;
-        font-family: 'Krub', sans-serif;
-        height: 100%;
-        font-size: 1.4rem;
-        color: var(--text-color);
-        background-color: transparent;
-        // caret-color: var(--primary-color);
-    }
-
-    input:not(:placeholder-shown) ~ .search-btn {
-        color: #212529;
-    }
-
-    &:focus-within {
-        border-color: var(--primary-color);
-    }
-}
-
-.search-title {
-    padding: 5px 12px;
-    color: rgba(22, 24, 35, 0.7);
-}
-
-.clear,
-.loading {
-    position: absolute;
-    right: calc(var(--search-btn-width) + 16px);
-    top: 50%;
-    transform: translateY(-50%);
-    color: rgba(22, 24, 35, 0.35);
-}
-
-.search-btn {
-    width: var(--search-btn-width);
-    height: 100%;
-    background-color: #fff;
-    border-top-right-radius: var(--search-border-radius);
-    border-bottom-right-radius: var(--search-border-radius);
-    font-size: 1.8rem;
-    color: rgba(22, 24, 35, 0.35);
-
-    &:hover {
-        background-color: rgba(22, 24, 35, 0.03);
-        cursor: pointer;
-    }
-    &:active {
-        background-color: rgba(22, 24, 35, 0.06);
-    }
-}
-
 .action {
     display: flex;
     align-items: center;
 }
 
 .action-btn {
+    position: relative;
+    display: flex;
     color: #161823;
     font-size: 2.2rem;
     background-color: transparent;
-    padding: 4px 12px;
+    padding: 4px 10px;
     cursor: pointer;
+}
+
+.badge {
+    position: absolute;
+    height: 1.8rem;
+    line-height: 1.8rem;
+    top: -6px;
+    right: -4px;
+    padding: 0px 6px;
+    border-radius: 10px;
+    font-family: 'Krub', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--white);
+    background-color: var(--primary-color);
 }
 
 .user-avt {
@@ -116,7 +69,3 @@
     background-color: transparent;
     cursor: pointer;
 }
-
-// .login-btn {
-//     color: green;
-// }

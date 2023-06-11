@@ -1,10 +1,6 @@
-import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-    faCircleXmark,
-    faSpinner,
-    faMagnifyingGlass,
     faEllipsisVertical,
     faEarthAsia,
     faBatteryFull,
@@ -17,15 +13,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faHeart, faMessage } from '@fortawesome/free-regular-svg-icons';
 import Tippy from '@tippyjs/react';
-import HeadlessTippy from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css';
 
 import Button from '~/components/Button';
-import { Wrapper as PopperWrapper } from '~/components/Popper';
-import logoHome from '~/assets/img/logomahnBatFinal.png';
+import image from '~/assets/img';
 import styles from './Header.module.scss';
-import ProductsItem from '~/components/ProductsItem';
 import Menu from '~/components/Popper/Menu';
+import Image from '~/components/Image';
+import Search from '../Search';
 
 const cx = classNames.bind(styles);
 
@@ -61,15 +56,7 @@ const MENU_ITEMS = [
 ];
 
 function Header() {
-    const [searchResult, setSearchResult] = useState([]);
-
     const currentUser = true;
-
-    useEffect(() => {
-        setTimeout(() => {
-            setSearchResult([]);
-        }, 0);
-    }, []);
 
     const handleMenuCHange = (menuItem) => {
         switch (menuItem.type) {
@@ -108,35 +95,10 @@ function Header() {
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
                 <a className={cx('logo-link')} href="/">
-                    <img className={cx('logo-src')} src={logoHome} alt="logo" />
+                    <img className={cx('logo-src')} src={image.logoHome} alt="logo" />
                 </a>
-                <HeadlessTippy
-                    interactive
-                    visible={searchResult.length > 0}
-                    render={(attrs) => (
-                        <div className={cx('search-result')} tabIndex="-1" {...attrs}>
-                            <PopperWrapper>
-                                <h4 className={cx('search-title')}>Sản phẩm</h4>
-                                <ProductsItem />
-                                <ProductsItem />
-                                <ProductsItem />
-                                <ProductsItem />
-                            </PopperWrapper>
-                        </div>
-                    )}
-                >
-                    <div className={cx('search')}>
-                        <input placeholder="Tìm kiếm sản phẩm..." spellCheck={false} />
-                        <button className={cx('clear')}>
-                            <FontAwesomeIcon icon={faCircleXmark} />
-                        </button>
-                        <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />
 
-                        <button className={cx('search-btn')}>
-                            <FontAwesomeIcon icon={faMagnifyingGlass} />
-                        </button>
-                    </div>
-                </HeadlessTippy>
+                <Search />
 
                 <div className={cx('action')}>
                     {currentUser ? (
@@ -149,11 +111,13 @@ function Header() {
                             <Tippy content="Theo dõi đơn hàng" placement="bottom">
                                 <button className={cx('action-btn')}>
                                     <FontAwesomeIcon icon={faTruck} />
+                                    <span className={cx('badge')}>10</span>
                                 </button>
                             </Tippy>
                             <Tippy content="Thông báo" placement="bottom">
                                 <button className={cx('action-btn')}>
                                     <FontAwesomeIcon icon={faMessage} />
+                                    <span className={cx('badge')}>10</span>
                                 </button>
                             </Tippy>
                         </>
@@ -173,10 +137,11 @@ function Header() {
                     )}
                     <Menu items={currentUser ? userMenu : MENU_ITEMS} onChange={handleMenuCHange}>
                         {currentUser ? (
-                            <img
+                            <Image
                                 className={cx('user-avt')}
-                                src="https://res.cloudinary.com/daily-now/image/upload/f_auto,q_auto/v1/posts/7eb5b67e2ccb838a5986662cb9daf4a3?_a=AQADKdt"
-                                alt=""
+                                src="https://klbtheme.com/partdo/wp-content/uploads/2022/10/1-15-600x600.jpg"
+                                alt="User avatar"
+                                fallback="https://klbtheme.com/partdo/wp-content/uploads/2022/10/1-36.jpg"
                             />
                         ) : (
                             <button className={cx('more-btn')}>
