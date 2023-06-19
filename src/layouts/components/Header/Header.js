@@ -1,25 +1,25 @@
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisVertical, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import {
-    faEllipsisVertical,
-    faEarthAsia,
-    faBatteryFull,
-    faCircleInfo,
-    faTruck,
-    faGear,
-    faGift,
-    faUser,
-    faArrowRightFromBracket,
-} from '@fortawesome/free-solid-svg-icons';
-import { faHeart, faMessage } from '@fortawesome/free-regular-svg-icons';
+    CartIcon,
+    HeartIcon,
+    VoucherIcon,
+    SettingIcon,
+    UserIcon,
+    LanguageIcon,
+    BatteryIcon,
+    InfoIcon,
+} from '~/components/Icons';
+
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import config from '~/config';
 
+import styles from './Header.module.scss';
 import Button from '~/components/Button';
 import image from '~/assets/img';
-import styles from './Header.module.scss';
 import Menu from '~/components/Popper/Menu';
 import Image from '~/components/Image';
 import Search from '../Search';
@@ -28,7 +28,7 @@ const cx = classNames.bind(styles);
 
 const MENU_ITEMS = [
     {
-        icon: <FontAwesomeIcon icon={faEarthAsia} />,
+        icon: <LanguageIcon />,
         title: 'Tiếng Việt',
         children: {
             title: 'Ngôn Ngữ',
@@ -47,18 +47,18 @@ const MENU_ITEMS = [
         },
     },
     {
-        icon: <FontAwesomeIcon icon={faBatteryFull} />,
+        icon: <BatteryIcon />,
         title: 'Kiểm tra pin',
         to: '/batterycheck',
     },
     {
-        icon: <FontAwesomeIcon icon={faCircleInfo} />,
+        icon: <InfoIcon />,
         title: 'Liên hệ',
     },
 ];
 
 function Header() {
-    const currentUser = true;
+    const currentUser = false;
 
     const handleMenuCHange = (menuItem) => {
         switch (menuItem.type) {
@@ -70,17 +70,17 @@ function Header() {
 
     const userMenu = [
         {
-            icon: <FontAwesomeIcon icon={faUser} />,
+            icon: <UserIcon />,
             title: 'Tài khoản của tôi',
             to: '/myaccount',
         },
         {
-            icon: <FontAwesomeIcon icon={faGift} />,
+            icon: <VoucherIcon />,
             title: 'Mã giảm giá',
             to: '/voucher',
         },
         {
-            icon: <FontAwesomeIcon icon={faGear} />,
+            icon: <SettingIcon />,
             title: 'Cài đặt',
             to: '/settings',
         },
@@ -107,18 +107,12 @@ function Header() {
                         <>
                             <Tippy content="Sản phẩm yêu thích" placement="bottom">
                                 <button className={cx('action-btn')}>
-                                    <FontAwesomeIcon icon={faHeart} />
+                                    <HeartIcon className={cx('heart-icon')} />
                                 </button>
                             </Tippy>
                             <Tippy content="Theo dõi đơn hàng" placement="bottom">
                                 <button className={cx('action-btn')}>
-                                    <FontAwesomeIcon icon={faTruck} />
-                                    <span className={cx('badge')}>10</span>
-                                </button>
-                            </Tippy>
-                            <Tippy content="Thông báo" placement="bottom">
-                                <button className={cx('action-btn')}>
-                                    <FontAwesomeIcon icon={faMessage} />
+                                    <CartIcon />
                                     <span className={cx('badge')}>10</span>
                                 </button>
                             </Tippy>

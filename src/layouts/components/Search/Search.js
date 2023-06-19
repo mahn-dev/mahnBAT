@@ -4,6 +4,7 @@ import HeadlessTippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
 
 import styles from './Search.module.scss';
+import { LoadingIcon } from '~/components/Icons';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faSpinner, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
@@ -88,7 +89,7 @@ function Search() {
                             <FontAwesomeIcon icon={faCircleXmark} />
                         </button>
                     )}
-                    {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
+                    {loading && <LoadingIcon className={cx('loading')} />}
 
                     <button
                         className={cx('search-btn')}

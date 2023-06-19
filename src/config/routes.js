@@ -2,7 +2,11 @@ const routes = {
     home: '/',
     products: '/products',
     cart: '/cart',
-    about: '/:nickname',
+    newproducts: '/newproducts',
+    saleproducts: '/saleproducts',
+    batterycheck: '/batterycheck',
+    // about: '/:nickname',
+    notfound: '*',
 };
 
 export default routes;

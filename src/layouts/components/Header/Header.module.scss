@@ -1,10 +1,10 @@
 .wrapper {
     --search-border-radius: 12px;
     --search-btn-width: 54px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10;
+    // position: fixed;
+    // top: 0;
+    // left: 0;
+    // z-index: 10;
     width: 100%;
     height: var(--default-layout-header-height);
     box-shadow: 0px 1px 1px rgb(0 0 0 / 12%);
@@ -23,9 +23,10 @@
 
 .logo-link {
     display: flex;
-    width: 160px;
-    height: var(--default-layout-header-height);
-    object-fit: contain;
+    // width: 100px;
+    height: 50px;
+    // height: var(--default-layout-header-height);
+    object-fit: cover;
 }
 
 .action {
@@ -74,3 +75,11 @@
     background-color: transparent;
     cursor: pointer;
 }
+
+// .heart-icon {
+//     width: 30px;
+//     height: 30px;
+//     font-weight: 800;
+//     // stroke: black;
+//     // stroke-width: 8px;
+// }

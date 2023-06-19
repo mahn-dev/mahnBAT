@@ -1,28 +1,23 @@
+import Header from '~/layouts/components/Header';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-
-import TopHeader from '~/layouts/components/TopHeader';
-import Header from '~/layouts/components/Header';
-import Sidebar from '~/layouts/components/Sidebar';
-import styles from './DefaultLayout.module.scss';
+import styles from './HeaderOnly.scss';
 
 const cx = classNames.bind(styles);
 
-function DefaultLayout({ children }) {
+function HeaderOnly({ children }) {
     return (
         <div className={cx('wrapper')}>
-            <TopHeader />
             <Header />
             <div className={cx('container')}>
-                <Sidebar />
                 <div className={cx('content')}>{children}</div>
             </div>
         </div>
     );
 }
 
-DefaultLayout.propTypes = {
+HeaderOnly.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
-export default DefaultLayout;
+export default HeaderOnly;

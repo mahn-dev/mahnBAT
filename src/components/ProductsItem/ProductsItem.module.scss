@@ -1,4 +1,5 @@
 .wrapper {
+    --img-size: 42px;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -10,8 +11,8 @@
 }
 
 .product-img {
-    width: 42px;
-    height: 100%;
+    width: var(--img-size);
+    height: var(--img-size);
     border: 1px solid #e8e8e8;
     border-radius: 3px;
     object-fit: cover;
