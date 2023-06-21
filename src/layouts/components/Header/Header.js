@@ -1,4 +1,6 @@
 import classNames from 'classnames/bind';
+import styles from './Header.module.scss';
+
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
@@ -17,7 +19,6 @@ import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import config from '~/config';
 
-import styles from './Header.module.scss';
 import Button from '~/components/Button';
 import image from '~/assets/img';
 import Menu from '~/components/Popper/Menu';
