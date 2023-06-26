@@ -1,0 +1,22 @@
+.inner {
+    width: var(--default-layout-width);
+    display: flex;
+}
+
+.container {
+    // max-width: 100%;
+    // margin-top: var(--default-layout-header-height);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.pagination {
+    margin: 20px 0;
+    display: flex;
+    gap: 20px;
+    list-style: none;
+}
+
+.pagination-item {
+}

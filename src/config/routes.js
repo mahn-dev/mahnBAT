@@ -2,10 +2,14 @@ const routes = {
     home: '/',
     products: '/products',
     cart: '/cart',
-    newproducts: '/newproducts',
-    saleproducts: '/saleproducts',
-    batterycheck: '/batterycheck',
-    // about: '/:nickname',
+    newproducts: '/new-products',
+    saleproducts: '/sale-products',
+    batterycheck: '/battery-check',
+    typeProducts: '/:type',
+    signIn: '/sign-in',
+    signUp: '/sign-up',
+    productDetail: '/product-detail',
+    about: '/about',
     notfound: '*',
 };
 
