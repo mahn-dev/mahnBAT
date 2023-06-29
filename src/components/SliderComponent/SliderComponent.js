@@ -22,7 +22,7 @@ export const SliderComponent = ({ arrImgs }) => {
     };
     return (
         <div className={cx('wrapper')}>
-            <Slider {...settings}>
+            <Slider className={cx('slider')} {...settings}>
                 {arrImgs.map((image) => {
                     return <Image className={cx('slick-img')} src={image} alt="slider" key={image} />;
                 })}
