@@ -7,9 +7,9 @@ function FilterNavbar() {
     const renderContent = (type, options) => {
         switch (type) {
             case 'text':
-                return options.map((options) => {
+                return options.map((options, i) => {
                     return (
-                        <div className={cx('filter-wrapper')}>
+                        <div className={cx('filter-wrapper')} key={i}>
                             <h4 className={cx('filter-title')}>{options}</h4>
                         </div>
                     );
