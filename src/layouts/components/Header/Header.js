@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Header.module.scss';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -59,7 +59,12 @@ const MENU_ITEMS = [
 ];
 
 function Header() {
-    const currentUser = true;
+    const navigate = useNavigate();
+    const handleNavigateLogin = () => {
+        navigate('/sign-in');
+    };
+
+    const currentUser = false;
 
     const handleMenuCHange = (menuItem) => {
         switch (menuItem.type) {
@@ -129,7 +134,9 @@ function Header() {
                             {/* <Button outline className={cx('login-btn')}>
                             Đăng nhập
                         </Button> */}
-                            <Button primary>Đăng nhập</Button>
+                            <Button onClick={handleNavigateLogin} primary>
+                                Đăng nhập
+                            </Button>
                         </>
                     )}
                     <Menu items={currentUser ? userMenu : MENU_ITEMS} onChange={handleMenuCHange}>

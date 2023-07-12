@@ -1,0 +1,11 @@
+.wrapper {
+    margin-top: 50px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.lost-password {
+    color: var(--primary-color);
+}
