@@ -1,5 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './Header.module.scss';
+import { useSelector } from 'react-redux';
 
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -59,6 +60,8 @@ const MENU_ITEMS = [
 ];
 
 function Header() {
+    const user = useSelector((state) => state.user);
+    console.log(user);
     const navigate = useNavigate();
     const handleNavigateLogin = () => {
         navigate('/sign-in');
@@ -125,6 +128,13 @@ function Header() {
                         </>
                     ) : (
                         <>
+                            {user?.username ? (
+                                <div>{user.username}</div>
+                            ) : (
+                                <Button onClick={handleNavigateLogin} primary>
+                                    Đăng nhập
+                                </Button>
+                            )}
                             {/* <Button primary to="/products" target="_blank">
                             Đăng nhập
                         </Button> */}
@@ -134,9 +144,6 @@ function Header() {
                             {/* <Button outline className={cx('login-btn')}>
                             Đăng nhập
                         </Button> */}
-                            <Button onClick={handleNavigateLogin} primary>
-                                Đăng nhập
-                            </Button>
                         </>
                     )}
                     <Menu items={currentUser ? userMenu : MENU_ITEMS} onChange={handleMenuCHange}>

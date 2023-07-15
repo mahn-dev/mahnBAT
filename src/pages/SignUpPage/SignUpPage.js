@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import classNames from 'classnames/bind';
 import styles from './SignUpPage.module.scss';
@@ -12,9 +12,21 @@ import { useMutationHooks } from '~/hooks/useMutationHook';
 const cx = classNames.bind(styles);
 
 function SignUpPage() {
+    const navigate = useNavigate();
     const mutation = useMutationHooks((data) => UserService.signupUser(data));
 
-    const { data, isLoading } = mutation;
+    const { data, isSuccess, isError } = mutation;
+
+    useEffect(() => {
+        if (isSuccess) {
+            handleNavigateSignIn();
+        } else if (isError) {
+        }
+    }, [isSuccess, isError]);
+
+    const handleNavigateSignIn = () => {
+        navigate('/sign-in');
+    };
 
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');

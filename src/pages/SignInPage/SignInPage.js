@@ -1,5 +1,7 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import jwt_decode from 'jwt-decode';
 
 import classNames from 'classnames/bind';
 import styles from './SignInPage.module.scss';
@@ -8,14 +10,34 @@ import InputForm from '~/components/InputForm';
 import Button from '~/components/Button';
 import * as UserService from '~/services/userService';
 import { useMutationHooks } from '~/hooks/useMutationHook';
+import { updateUser } from '~/redux/slice/userSlice';
 
 const cx = classNames.bind(styles);
 
 function SignInPage() {
+    const navigate = useNavigate();
     const mutation = useMutationHooks((data) => UserService.loginUser(data));
-    const { data, isLoading } = mutation;
+    const { data, isSuccess } = mutation;
+    const dispatch = useDispatch();
 
-    console.log(mutation);
+    useEffect(() => {
+        if (isSuccess) {
+            navigate('/');
+            localStorage.setItem('access_token', data?.access_token);
+            if (data?.access_token) {
+                const decoded = jwt_decode(data?.access_token);
+                console.log(decoded);
+                if (decoded?.id) {
+                    handleGetDetailsUser(decoded?.id, data?.access_token);
+                }
+            }
+        }
+    }, [isSuccess]);
+
+    const handleGetDetailsUser = async (id, token) => {
+        const res = await UserService.getDetailsUser(id, token);
+        dispatch(updateUser({ ...res?.data, access_token: token }));
+    };
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -32,7 +54,6 @@ function SignInPage() {
             username,
             password,
         });
-        console.log(username, password);
     };
     return (
         <div className={cx('wrapper')}>
