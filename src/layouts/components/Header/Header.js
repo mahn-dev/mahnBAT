@@ -61,7 +61,6 @@ const MENU_ITEMS = [
 
 function Header() {
     const user = useSelector((state) => state.user);
-    console.log(user);
     const navigate = useNavigate();
     const handleNavigateLogin = () => {
         navigate('/sign-in');
