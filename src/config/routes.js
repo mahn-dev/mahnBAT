@@ -11,6 +11,7 @@ const routes = {
     productDetail: '/product-detail',
     about: '/about',
     notfound: '*',
+    profile: '/profile-user',
 };
 
 export default routes;

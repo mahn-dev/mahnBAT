@@ -11,6 +11,7 @@ import TypeProductsPage from '~/pages/TypeProductsPage';
 import SignInPage from '~/pages/SignInPage';
 import SignUpPage from '~/pages/SignUpPage';
 import ProductDetailPage from '~/pages/ProductDetailPage';
+import Profile from '~/pages/Profile';
 
 const publicRoutes = [
     {
@@ -58,6 +59,11 @@ const publicRoutes = [
     {
         path: config.routes.productDetail,
         page: ProductDetailPage,
+        layout: HeaderOnly,
+    },
+    {
+        path: config.routes.profile,
+        page: Profile,
         layout: HeaderOnly,
     },
 ];
