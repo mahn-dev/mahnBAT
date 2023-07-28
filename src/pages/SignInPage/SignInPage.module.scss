@@ -1,11 +1,55 @@
 .wrapper {
-    margin-top: 50px;
+    width: 528px;
+    margin: 50px 0;
     border: 1px solid var(--border-color);
     border-radius: 12px;
     display: flex;
     flex-direction: column;
+    padding: 50px;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.heading {
+    margin-bottom: 48px;
+    font-size: 2.4rem;
 }
 
 .lost-password {
     color: var(--primary-color);
+}
+
+.form-container {
+    width: 100%;
+}
+
+.form-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form-title {
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
+.login-btn {
+    width: 100%;
+}
+
+.action {
+    margin-top: 30px;
+}
+
+.signup-link {
+    margin-left: 10px;
+    color: var(--primary-color);
+    &:hover {
+        text-decoration: underline;
+    }
 }

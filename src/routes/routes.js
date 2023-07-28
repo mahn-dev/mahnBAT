@@ -25,11 +25,12 @@ const publicRoutes = [
     {
         path: config.routes.batterycheck,
         page: BatteryCheck,
+        layout: HeaderOnly,
     },
     {
         path: config.routes.about,
         page: About,
-        // layout: null,
+        layout: HeaderOnly,
     },
     {
         path: config.routes.cart,

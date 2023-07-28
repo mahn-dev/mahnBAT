@@ -1,16 +1,17 @@
 import { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { publicRoutes } from '~/routes';
 import DefaultLayout from '~/layouts';
 import { isJsonString } from '~/utils';
-import * as UserService from '~/services/userService';
-import { updateUser } from '~/redux/slice/userSlice';
+import * as UserService from '~/services/UserService';
+import { updateUser, resetUser } from '~/redux/slice/userSlice';
 
 function App() {
     const dispatch = useDispatch();
+    const user = useSelector((state) => state.user);
 
     useEffect(() => {
         const { storageData, decoded } = handleDecoded();
@@ -19,23 +20,54 @@ function App() {
         }
     }, []);
 
+    // const handleDecoded = () => {
+    //     let storageData = localStorage.getItem('access_token');
+    //     let decoded = {};
+    //     if (storageData && isJsonString(storageData)) {
+    //         storageData = JSON.parse(storageData);
+    //         decoded = jwt_decode(storageData);
+    //     }
+    //     return { decoded, storageData };
+    // };
     const handleDecoded = () => {
-        let storageData = localStorage.getItem('access_token');
+        let storageData = user?.access_token || localStorage.getItem('access_token');
         let decoded = {};
-        if (storageData && isJsonString(storageData)) {
+        if (storageData && isJsonString(storageData) && !user?.access_token) {
             storageData = JSON.parse(storageData);
             decoded = jwt_decode(storageData);
         }
         return { decoded, storageData };
     };
 
+    // UserService.axiosJWT.interceptors.request.use(
+    //     async (config) => {
+    //         const currentTime = new Date();
+    //         const { decoded } = handleDecoded();
+    //         if (decoded?.exp < currentTime.getTime() / 1000) {
+    //             const data = await UserService.refreshToken();
+    //             config.headers['token'] = `Bearer ${data?.access_token}`;
+    //         }
+    //         return config;
+    //     },
+    //     (err) => {
+    //         return Promise.reject(err);
+    //     },
+    // );
     UserService.axiosJWT.interceptors.request.use(
         async (config) => {
+            // Do something before request is sent
             const currentTime = new Date();
             const { decoded } = handleDecoded();
+            let storageRefreshToken = localStorage.getItem('refresh_token');
+            const refreshToken = JSON.parse(storageRefreshToken);
+            const decodedRefreshToken = jwt_decode(refreshToken);
             if (decoded?.exp < currentTime.getTime() / 1000) {
-                const data = await UserService.refreshToken();
-                config.headers['token'] = `Bearer ${data?.access_token}`;
+                if (decodedRefreshToken?.exp > currentTime.getTime() / 1000) {
+                    const data = await UserService.refreshToken(refreshToken);
+                    config.headers['token'] = `Bearer ${data?.access_token}`;
+                } else {
+                    dispatch(resetUser());
+                }
             }
             return config;
         },
@@ -44,10 +76,18 @@ function App() {
         },
     );
 
+    // const handleGetDetailsUser = async (id, token) => {
+    //     const res = await UserService.getDetailsUser(id, token);
+    //     dispatch(updateUser({ ...res?.data, access_token: token }));
+    // };
+
     const handleGetDetailsUser = async (id, token) => {
+        let storageRefreshToken = localStorage.getItem('refresh_token');
+        const refreshToken = JSON.parse(storageRefreshToken);
         const res = await UserService.getDetailsUser(id, token);
-        dispatch(updateUser({ ...res?.data, access_token: token }));
+        dispatch(updateUser({ ...res?.data, access_token: token, refresh_token: refreshToken }));
     };
+
     return (
         <Router>
             <div className="App">

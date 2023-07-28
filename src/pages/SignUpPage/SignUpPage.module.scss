@@ -1,11 +1,60 @@
 .wrapper {
-    margin-top: 50px;
+    width: 528px;
+    margin: 50px 0;
     border: 1px solid var(--border-color);
     border-radius: 12px;
     display: flex;
     flex-direction: column;
+    padding: 50px;
 }
 
-.lost-password {
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.heading {
+    margin-bottom: 48px;
+    font-size: 2.4rem;
+}
+
+.form-container {
+    width: 100%;
+}
+
+.form-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form-title {
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
+.policy {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+}
+
+.policy-link {
     color: var(--primary-color);
+}
+
+.signup-btn {
+    width: 100%;
+}
+
+.signin-action {
+    margin-top: 30px;
+}
+
+.signin-link {
+    margin-left: 10px;
+    color: var(--primary-color);
+    &:hover {
+        text-decoration: underline;
+    }
 }

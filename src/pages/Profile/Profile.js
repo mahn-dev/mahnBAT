@@ -1,23 +1,133 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useMutationHooks } from '~/hooks/useMutationHook';
 import classNames from 'classnames/bind';
 import styles from './Profile.module.scss';
 
 import InputForm from '~/components/InputForm';
 import Button from '~/components/Button';
+import * as UserService from '~/services/UserService';
+import { updateUser } from '~/redux/slice/userSlice';
+import { Upload } from 'antd';
+import { getBase64 } from '~/utils';
 
 const cx = classNames.bind(styles);
 
 function Profile() {
+    const dispatch = useDispatch();
+
+    const user = useSelector((state) => state.user);
     const [username, setUsername] = useState('');
-    const handleOnChangeUsername = () => {};
-    const handleUpdate = () => {};
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState('');
+    const [avatar, setAvatar] = useState('');
+
+    const mutation = useMutationHooks((data) => {
+        const { id, access_token, ...rests } = data;
+        UserService.updateUser(id, rests, access_token);
+    });
+
+    const { data, isSuccess, isError } = mutation;
+    console.log(data);
+    useEffect(() => {
+        setUsername(user?.username);
+        setEmail(user?.email);
+        setPhone(user?.phone);
+        setAddress(user?.address);
+        setAvatar(user?.avatar);
+    }, [user]);
+
+    useEffect(() => {
+        if (isSuccess) {
+            handleGetDetailsUser(user?.id, user?.access_token);
+        } else if (isError) {
+        }
+    }, [isSuccess, isError]);
+
+    const handleGetDetailsUser = async (id, token) => {
+        const res = await UserService.getDetailsUser(id, token);
+        dispatch(updateUser({ ...res?.data, access_token: token }));
+        console.log(res);
+    };
+
+    const handleOnChangeUsername = (value) => {
+        setUsername(value);
+    };
+    const handleOnChangeEmail = (value) => {
+        setEmail(value);
+    };
+    const handleOnChangePhone = (value) => {
+        setPhone(value);
+    };
+    const handleOnChangeAddress = (value) => {
+        setAddress(value);
+    };
+    const handleOnChangeAvatar = async ({ fileList }) => {
+        const file = fileList[0];
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj);
+        }
+        setAvatar(file.preview);
+    };
+
+    const handleUpdate = () => {
+        mutation.mutate({ id: user?.id, email, username, phone, address, avatar, access_token: user?.access_token });
+    };
 
     return (
         <div className={cx('wrapper')}>
             <h3>Trang thông tin người dùng</h3>
             <div>
-                <span>Tên tài khoản</span>
-                <InputForm placeholder="Tên tài khoản" value={username} onChange={handleOnChangeUsername} />
+                <label htmlFor="username">Tên tài khoản</label>
+                <InputForm
+                    id="username"
+                    placeholder="Nhập tên tài khoản"
+                    value={username}
+                    onChange={handleOnChangeUsername}
+                />
+                <Button onClick={handleUpdate} primary>
+                    Lưu
+                </Button>
+            </div>
+            <div>
+                <label htmlFor="email">Email</label>
+                <InputForm id="email" placeholder="Nhập email" value={email} onChange={handleOnChangeEmail} />
+                <Button onClick={handleUpdate} primary>
+                    Lưu
+                </Button>
+            </div>
+            <div>
+                <label htmlFor="phone">Số điện thoại</label>
+                <InputForm id="phone" placeholder="Nhập số điện thoại" value={phone} onChange={handleOnChangePhone} />
+                <Button onClick={handleUpdate} primary>
+                    Lưu
+                </Button>
+            </div>
+            <div>
+                <label htmlFor="address">Địa chỉ</label>
+                <InputForm id="address" placeholder="Nhập địa chỉ" value={address} onChange={handleOnChangeAddress} />
+                <Button onClick={handleUpdate} primary>
+                    Lưu
+                </Button>
+            </div>
+            <div>
+                <label htmlFor="avatar">Avatar</label>
+                <Upload className={cx('upload')} onChange={handleOnChangeAvatar} maxCount={1}>
+                    <Button outline>avt</Button>
+                </Upload>
+                {avatar && (
+                    <img
+                        src={avatar}
+                        style={{
+                            height: '60px',
+                            width: '60px',
+                            objectFit: 'cover',
+                            borderRadius: '50%',
+                        }}
+                        alt="avatar"
+                    />
+                )}
                 <Button onClick={handleUpdate} primary>
                     Lưu
                 </Button>
