@@ -18,6 +18,7 @@ function Profile() {
 
     const user = useSelector((state) => state.user);
     const [username, setUsername] = useState('');
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
@@ -29,9 +30,9 @@ function Profile() {
     });
 
     const { data, isSuccess, isError } = mutation;
-    console.log(data);
     useEffect(() => {
         setUsername(user?.username);
+        setName(user?.name);
         setEmail(user?.email);
         setPhone(user?.phone);
         setAddress(user?.address);
@@ -54,6 +55,9 @@ function Profile() {
     const handleOnChangeUsername = (value) => {
         setUsername(value);
     };
+    const handleOnChangeName = (value) => {
+        setName(value);
+    };
     const handleOnChangeEmail = (value) => {
         setEmail(value);
     };
@@ -72,20 +76,24 @@ function Profile() {
     };
 
     const handleUpdate = () => {
-        mutation.mutate({ id: user?.id, email, username, phone, address, avatar, access_token: user?.access_token });
+        mutation.mutate({
+            id: user?.id,
+            email,
+            username,
+            name,
+            phone,
+            address,
+            avatar,
+            access_token: user?.access_token,
+        });
     };
 
     return (
         <div className={cx('wrapper')}>
             <h3>Trang thông tin người dùng</h3>
             <div>
-                <label htmlFor="username">Tên tài khoản</label>
-                <InputForm
-                    id="username"
-                    placeholder="Nhập tên tài khoản"
-                    value={username}
-                    onChange={handleOnChangeUsername}
-                />
+                <label htmlFor="name">Tên người dùng</label>
+                <InputForm id="name" placeholder="Nhập tên tài khoản" value={name} onChange={handleOnChangeName} />
                 <Button onClick={handleUpdate} primary>
                     Lưu
                 </Button>
