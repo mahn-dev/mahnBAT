@@ -12,11 +12,13 @@ import SignInPage from '~/pages/SignInPage';
 import SignUpPage from '~/pages/SignUpPage';
 import ProductDetailPage from '~/pages/ProductDetailPage';
 import Profile from '~/pages/Profile';
+import AdminPage from '~/pages/AdminPage';
 
 const publicRoutes = [
     {
         path: config.routes.home,
         page: Home,
+        isShowHeader: true,
     },
     {
         path: config.routes.products,
@@ -66,6 +68,12 @@ const publicRoutes = [
         path: config.routes.profile,
         page: Profile,
         layout: HeaderOnly,
+    },
+    {
+        path: config.routes.admin,
+        page: AdminPage,
+        layout: null,
+        isPrivate: true,
     },
 ];
 

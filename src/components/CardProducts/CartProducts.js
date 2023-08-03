@@ -7,7 +7,8 @@ import { CartBoxIcon, HeartIcon } from '~/components/Icons';
 
 const cx = classNames.bind(styles);
 
-function CartProducts() {
+function CartProducts(props) {
+    const { countInStock, description, image, name, price, type } = props;
     return (
         <div className={cx('wrapper')}>
             <Link to="https://klbtheme.com/partdo/">
@@ -19,15 +20,24 @@ function CartProducts() {
             </Link>
             <div className={cx('content')}>
                 <Link className={cx('cart-link')} to="https://klbtheme.com/partdo/">
-                    <span className={cx('cart-link-title')}>Pin 5S2P 5000mAh - Dòng xả cao - Chuyên máy công cụ</span>
+                    <span className={cx('cart-link-title')}>{name}</span>
                 </Link>
                 <div className={cx('cart-price')}>
                     <span className={cx('original-price')}>500.000 ₫</span>
-                    <span className={cx('sale-price')}>$348.99</span>
+                    <span className={cx('sale-price')}>{price}</span>
                 </div>
                 <div className={cx('stock')}>
-                    <CartBoxIcon />
-                    <span className={cx('stock-title')}>Còn hàng</span>
+                    {countInStock === 0 ? (
+                        <>
+                            <CartBoxIcon className={cx('stock__title--out-of-stock')} />
+                            <span className={cx('stock__title', 'stock__title--out-of-stock')}>Tạm hết hàng</span>
+                        </>
+                    ) : (
+                        <>
+                            <CartBoxIcon />
+                            <span className={cx('stock__title')}>Còn {countInStock} sản phẩm</span>
+                        </>
+                    )}
                 </div>
             </div>
         </div>

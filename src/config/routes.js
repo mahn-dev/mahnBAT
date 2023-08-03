@@ -12,6 +12,7 @@ const routes = {
     productDetail: '/product-detail',
     notfound: '*',
     profile: '/profile-user',
+    admin: '/system/admin',
 };
 
 export default routes;
