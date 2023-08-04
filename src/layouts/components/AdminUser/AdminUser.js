@@ -22,17 +22,11 @@ function AdminUser() {
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
     const user = useSelector((state) => state?.user);
-    const [stateUser, setStateUser] = useState({
-        username: '',
-        name: '',
-        email: '',
-        phone: '',
-        address: '',
-        isAdmin: false,
-    });
+
     const [stateUserDetails, setStateUserDetails] = useState({
         username: '',
         name: '',
+        avatar: '',
         email: '',
         phone: '',
         address: '',
@@ -64,13 +58,14 @@ function AdminUser() {
         return res;
     };
 
-    const fetchGetDetailsProduct = async (rowSelected) => {
+    const fetchGetDetailsUser = async (rowSelected) => {
         const res = await UserService.getDetailsUser(rowSelected);
         if (res?.data) {
             setStateUserDetails({
                 username: res?.data?.username,
                 name: res?.data?.name,
                 email: res?.data?.email,
+                avatar: res?.data?.avatar,
                 phone: res?.data?.phone,
                 address: res?.data?.address,
                 isAdmin: res?.data?.isAdmin,
@@ -84,13 +79,13 @@ function AdminUser() {
 
     useEffect(() => {
         if (rowSelected && isOpenDrawer) {
-            fetchGetDetailsProduct(rowSelected);
+            fetchGetDetailsUser(rowSelected);
         }
     }, [rowSelected, isOpenDrawer]);
 
-    const handleDetailProduct = () => {
+    const handleDetailUser = () => {
         // if (rowSelected) {
-        //     fetchGetDetailsProduct();
+        //     fetchGetDetailsUser();
         // }
         setIsOpenDrawer(true);
     };
@@ -116,7 +111,7 @@ function AdminUser() {
         return (
             <div>
                 <DeleteOutlined onClick={() => setIsModalOpenDelete(true)} />
-                <EditOutlined onClick={handleDetailProduct} />
+                <EditOutlined onClick={handleDetailUser} />
             </div>
         );
     };
@@ -282,6 +277,7 @@ function AdminUser() {
             username: '',
             name: '',
             email: '',
+            avatar: '',
             phone: '',
             address: '',
             isAdmin: false,
@@ -315,16 +311,6 @@ function AdminUser() {
         });
     };
 
-    const handleOnChangeImage = async ({ fileList }) => {
-        const file = fileList[0];
-        if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
-        }
-        setStateUser({
-            ...stateUser,
-            image: file.preview,
-        });
-    };
     const handleOnChangeImageDetails = async ({ fileList }) => {
         const file = fileList[0];
         if (!file.url && !file.preview) {
@@ -332,7 +318,7 @@ function AdminUser() {
         }
         setStateUserDetails({
             ...stateUserDetails,
-            image: file.preview,
+            avatar: file.preview,
         });
     };
     const onUpdateUser = () => {
@@ -356,7 +342,7 @@ function AdminUser() {
                     return {
                         onClick: (event) => {
                             setRowSelected(record._id);
-                        }, // click row
+                        },
                     };
                 }}
             />
@@ -436,32 +422,32 @@ function AdminUser() {
                             name="address"
                         />
                     </Form.Item>
-                    {/* <Form.Item
-                        label="Ảnh sản phẩm"
-                        name="image"
+                    <Form.Item
+                        label="Ảnh người dùng"
+                        name="avatar"
                         rules={[
                             {
                                 required: true,
-                                message: 'Thêm ảnh sản phẩm!',
+                                message: 'Thêm ảnh người dùng!',
                             },
                         ]}
                     >
                         <Upload onChange={handleOnChangeImageDetails} maxCount={1}>
                             <Button outline>Chọn ảnh</Button>
-                            {stateUserDetails?.image && (
+                            {stateUserDetails?.avatar && (
                                 <img
-                                    src={stateUserDetails?.image}
+                                    src={stateUserDetails?.avatar}
                                     style={{
-                                        height: '60px',
-                                        width: '60px',
-                                        objectFit: 'cover',
-                                        borderRadius: '50%',
+                                        border: '1px solid #ccc',
+                                        height: '150px',
+                                        width: '150px',
+                                        objectFit: 'contain',
                                     }}
-                                    alt="product-img"
+                                    alt="user-img"
                                 />
                             )}
                         </Upload>
-                    </Form.Item> */}
+                    </Form.Item>
 
                     <Form.Item
                         wrapperCol={{
