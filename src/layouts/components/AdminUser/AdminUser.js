@@ -52,6 +52,12 @@ function AdminUser() {
         return res;
     });
 
+    const mutationDeleteMany = useMutationHooks((data) => {
+        const { token, ...ids } = data;
+        const res = UserService.deleteManyUser(ids, token);
+        return res;
+    });
+
     const getAllUsers = async () => {
         const res = await UserService.getAllUser();
         console.log(res);
@@ -77,10 +83,10 @@ function AdminUser() {
     }, [form, stateUserDetails]);
 
     useEffect(() => {
-        if (rowSelected) {
+        if (rowSelected && isOpenDrawer) {
             fetchGetDetailsProduct(rowSelected);
         }
-    }, [rowSelected]);
+    }, [rowSelected, isOpenDrawer]);
 
     const handleDetailProduct = () => {
         // if (rowSelected) {
@@ -89,8 +95,20 @@ function AdminUser() {
         setIsOpenDrawer(true);
     };
 
+    const handleDeleteManyUsers = (ids) => {
+        mutationDeleteMany.mutate(
+            { ids: ids, token: user?.access_token },
+            {
+                onSettled: () => {
+                    queryUser.refetch();
+                },
+            },
+        );
+    };
+
     const { data: dataUpdated, isSuccess: isSuccessUpdated, isError: isErrorUpdated } = mutationUpdate;
     const { data: dataDeleted, isSuccess: isSuccessDeleted, isError: isErrorDeleted } = mutationDelete;
+    const { data: dataDeletedMany, isSuccess: isSuccessDeletedMany, isError: isErrorDeletedMany } = mutationDeleteMany;
 
     const queryUser = useQuery({ queryKey: ['user'], queryFn: getAllUsers });
     const { data: users } = queryUser;
@@ -253,6 +271,11 @@ function AdminUser() {
         }
     }, [isSuccessDeleted]);
 
+    useEffect(() => {
+        if (isSuccessDeletedMany && dataDeletedMany?.status === 'ok') {
+        }
+    }, [isSuccessDeletedMany]);
+
     const handleCloseDrawer = () => {
         setIsOpenDrawer(false);
         setStateUserDetails({
@@ -326,6 +349,7 @@ function AdminUser() {
         <div>
             <h2>User</h2>
             <TableComponent
+                handleDeleteMany={handleDeleteManyUsers}
                 columns={columns}
                 data={dataTable}
                 onRow={(record, rowIndex) => {

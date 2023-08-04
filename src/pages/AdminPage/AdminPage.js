@@ -1,34 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu } from 'antd';
-import { PieChartOutlined, DesktopOutlined } from '@ant-design/icons';
 
 import classNames from 'classnames/bind';
 import styles from './AdminPage.module.scss';
+import config from '~/config';
 
 import { getItem } from '~/utils';
 import AdminUser from '~/layouts/components/AdminUser';
 import AdminProduct from '~/layouts/components/AdminProduct';
+import Button from '~/components/Button';
+import { HomeIcon, UserIcon, CartIcon } from '~/components/Icons';
+import { useSelector } from 'react-redux';
 
 const cx = classNames.bind(styles);
 
 const items = [
-    getItem('User', 'user', <PieChartOutlined />),
-    getItem('Product', 'product', <DesktopOutlined />),
-    // getItem('Option 3', '3', <ContainerOutlined />),
-    // getItem('User', 'sub1', <UserOutlined />, [
-    //     getItem('Option 5', '5'),
-    //     getItem('Option 6', '6'),
-    //     getItem('Option 7', '7'),
-    //     getItem('Option 8', '8'),
-    // ]),
-    // getItem('Product', 'sub2', <AppstoreOutlined />, [
-    //     getItem('Option 9', '9'),
-    //     getItem('Option 10', '10'),
-    //     getItem('Submenu', 'sub3', null, [getItem('Option 11', '11'), getItem('Option 12', '12')]),
-    // ]),
+    getItem('User', 'user', <UserIcon width={'2rem'} height={'2rem'} />),
+    getItem('Product', 'product', <CartIcon width={'2rem'} height={'2rem'} />),
 ];
 
 const AdminPage = () => {
+    const [userName, setUserName] = useState('');
+    const [email, setEmail] = useState('');
+    const user = useSelector((state) => state.user);
+
     const renderPage = (key) => {
         switch (key) {
             case 'user':
@@ -45,9 +40,20 @@ const AdminPage = () => {
     const handleOnClick = ({ key }) => {
         setKeySelected(key);
     };
+    useEffect(() => {
+        setUserName(user?.username);
+        setEmail(user?.email);
+    }, [user?.username, user?.email]);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('side-menu')}>
+                <Button to={config.routes.home} primary>
+                    <HomeIcon />
+                </Button>
+                <div className={cx('username')}>
+                    <span>{userName}</span>
+                    <span>{email}</span>
+                </div>
                 <Menu className={cx('menu')} items={items} onClick={handleOnClick} />
             </div>
             <div className={cx('content')}>{renderPage(keySelected)}</div>

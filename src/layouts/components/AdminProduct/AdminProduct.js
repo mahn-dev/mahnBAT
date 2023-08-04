@@ -2,6 +2,7 @@ import { Form, Space, Upload } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { DeleteOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons';
 
+import { SearchIcon, UndoIcon, CloseIcon } from '~/components/Icons';
 import Button from '~/components/Button';
 import TableComponent from '~/components/TableComponent';
 import DrawerComponent from '~/components/DrawerComponent';
@@ -28,6 +29,7 @@ function AdminProduct() {
         type: '',
         price: '',
         countInStock: '',
+        percentDiscount: '',
         description: '',
     });
     const [stateProductDetails, setStateProductDetails] = useState({
@@ -36,14 +38,23 @@ function AdminProduct() {
         type: '',
         price: '',
         countInStock: '',
+        percentDiscount: '',
         description: '',
     });
 
     const [form] = Form.useForm();
 
     const mutation = useMutationHooks((data) => {
-        const { name, image, type, price, countInStock, description } = data;
-        const res = ProductService.createProduct({ name, image, type, price, countInStock, description });
+        const { name, image, type, price, countInStock, percentDiscount, description } = data;
+        const res = ProductService.createProduct({
+            name,
+            image,
+            type,
+            price,
+            countInStock,
+            percentDiscount,
+            description,
+        });
         return res;
     });
     const mutationUpdate = useMutationHooks((data) => {
@@ -56,10 +67,14 @@ function AdminProduct() {
         const res = ProductService.deleteProduct(id, token);
         return res;
     });
+    const mutationDeleteMany = useMutationHooks((data) => {
+        const { token, ...ids } = data;
+        const res = ProductService.deleteManyProduct(ids, token);
+        return res;
+    });
 
     const getAllProducts = async () => {
         const res = await ProductService.getAllProduct();
-        console.log(res);
         return res;
     };
 
@@ -72,6 +87,7 @@ function AdminProduct() {
                 type: res?.data?.type,
                 price: res?.data?.price,
                 countInStock: res?.data?.countInStock,
+                percentDiscount: res?.data?.percentDiscount,
                 description: res?.data?.description,
             });
         }
@@ -82,21 +98,30 @@ function AdminProduct() {
     }, [form, stateProductDetails]);
 
     useEffect(() => {
-        if (rowSelected) {
+        if (rowSelected && isOpenDrawer) {
             fetchGetDetailsProduct(rowSelected);
         }
-    }, [rowSelected]);
+    }, [rowSelected, isOpenDrawer]);
 
     const handleDetailProduct = () => {
-        // if (rowSelected) {
-        //     fetchGetDetailsProduct();
-        // }
         setIsOpenDrawer(true);
+    };
+
+    const handleDeleteManyProducts = (ids) => {
+        mutationDeleteMany.mutate(
+            { ids: ids, token: user?.access_token },
+            {
+                onSettled: () => {
+                    queryProduct.refetch();
+                },
+            },
+        );
     };
 
     const { data, isSuccess, isError } = mutation;
     const { data: dataUpdated, isSuccess: isSuccessUpdated, isError: isErrorUpdated } = mutationUpdate;
     const { data: dataDeleted, isSuccess: isSuccessDeleted, isError: isErrorDeleted } = mutationDelete;
+    const { data: dataDeletedMany, isSuccess: isSuccessDeletedMany, isError: isErrorDeletedMany } = mutationDeleteMany;
 
     const queryProduct = useQuery({ queryKey: ['products'], queryFn: getAllProducts });
     const { data: products } = queryProduct;
@@ -139,32 +164,19 @@ function AdminProduct() {
                     }}
                 />
                 <Space>
-                    <Button
-                        primary
-                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-                        style={{
-                            width: 90,
-                        }}
-                    >
-                        Search
+                    <Button primary onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}>
+                        <SearchIcon />
+                    </Button>
+                    <Button primary onClick={() => clearFilters && handleReset(clearFilters)}>
+                        <UndoIcon />
                     </Button>
                     <Button
-                        primary
-                        onClick={() => clearFilters && handleReset(clearFilters)}
-                        style={{
-                            width: 90,
-                        }}
-                    >
-                        Reset
-                    </Button>
-
-                    <Button
-                        primary
+                        outline
                         onClick={() => {
                             close();
                         }}
                     >
-                        close
+                        <CloseIcon />
                     </Button>
                 </Space>
             </div>
@@ -182,20 +194,6 @@ function AdminProduct() {
                 setTimeout(() => searchInput.current?.select(), 100);
             }
         },
-        // render: (text) =>
-        //     searchedColumn === dataIndex ? (
-        //         <Highlighter
-        //             highlightStyle={{
-        //                 backgroundColor: '#ffc069',
-        //                 padding: 0,
-        //             }}
-        //             searchWords={[searchText]}
-        //             autoEscape
-        //             textToHighlight={text ? text.toString() : ''}
-        //         />
-        //     ) : (
-        //         text
-        //     ),
     });
 
     const columns = [
@@ -219,6 +217,11 @@ function AdminProduct() {
             title: 'Số lượng hàng trong kho',
             dataIndex: 'countInStock',
             sorter: (a, b) => a.countInStock - b.countInStock,
+        },
+        {
+            title: '% giảm giá',
+            dataIndex: 'percentDiscount',
+            sorter: (a, b) => a.percentDiscount - b.percentDiscount,
         },
         {
             title: 'Sửa/Xoá sản phẩm',
@@ -253,6 +256,11 @@ function AdminProduct() {
         }
     }, [isSuccessDeleted]);
 
+    useEffect(() => {
+        if (isSuccessDeletedMany && dataDeletedMany?.status === 'ok') {
+        }
+    }, [isSuccessDeletedMany]);
+
     const handleCloseDrawer = () => {
         setIsOpenDrawer(false);
         setStateProductDetails({
@@ -261,6 +269,7 @@ function AdminProduct() {
             type: '',
             price: '',
             countInStock: '',
+            percentDiscount: '',
             description: '',
         });
         form.resetFields();
@@ -293,6 +302,7 @@ function AdminProduct() {
             type: '',
             price: '',
             countInStock: '',
+            percentDiscount: '',
             description: '',
         });
         form.resetFields();
@@ -352,7 +362,7 @@ function AdminProduct() {
 
     return (
         <div>
-            <h2>Product</h2>
+            <h2>Quản lý sản phẩm</h2>
             <Button
                 outline
                 onClick={() => {
@@ -362,13 +372,14 @@ function AdminProduct() {
                 Add
             </Button>
             <TableComponent
+                handleDeleteMany={handleDeleteManyProducts}
                 columns={columns}
                 data={dataTable}
                 onRow={(record, rowIndex) => {
                     return {
                         onClick: (event) => {
                             setRowSelected(record._id);
-                        }, // click row
+                        },
                     };
                 }}
             />
@@ -457,6 +468,22 @@ function AdminProduct() {
                             value={stateProduct.countInStock}
                             onChange={handleOnChange}
                             name="countInStock"
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        label="% giảm giá"
+                        name="percentDiscount"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Nhập % giảm giá!',
+                            },
+                        ]}
+                    >
+                        <InputComponent
+                            value={stateProduct.percentDiscount}
+                            onChange={handleOnChange}
+                            name="percentDiscount"
                         />
                     </Form.Item>
                     <Form.Item
@@ -593,6 +620,22 @@ function AdminProduct() {
                         />
                     </Form.Item>
                     <Form.Item
+                        label="% giảm giá"
+                        name="percentDiscount"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Nhập % giảm giá!',
+                            },
+                        ]}
+                    >
+                        <InputComponent
+                            value={stateProductDetails.percentDiscount}
+                            onChange={handleOnChangeDetails}
+                            name="percentDiscount"
+                        />
+                    </Form.Item>
+                    <Form.Item
                         label="Ảnh sản phẩm"
                         name="image"
                         rules={[
@@ -608,10 +651,10 @@ function AdminProduct() {
                                 <img
                                     src={stateProductDetails?.image}
                                     style={{
-                                        height: '60px',
-                                        width: '60px',
-                                        objectFit: 'cover',
-                                        borderRadius: '50%',
+                                        border: '1px solid #ccc',
+                                        height: '150px',
+                                        width: '150px',
+                                        objectFit: 'contain',
                                     }}
                                     alt="product-img"
                                 />
