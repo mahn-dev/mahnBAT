@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Header.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -28,7 +29,6 @@ import Image from '~/components/Image';
 import Search from '../Search';
 import * as UserService from '~/services/UserService';
 import { resetUser } from '~/redux/slice/userSlice';
-import { useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -100,6 +100,12 @@ function Header() {
             to: '/settings',
         },
         ...notLoggedMenu,
+        {
+            icon: <FontAwesomeIcon icon={faArrowRightFromBracket} />,
+            title: 'Đăng xuất',
+            separate: true,
+            onClick: handleLogout,
+        },
     ];
 
     useEffect(() => {
@@ -119,25 +125,6 @@ function Header() {
                 <div className={cx('action')}>
                     {user?.access_token ? (
                         <>
-                            {/* {userAvatar ? (
-                                    <img
-                                        src={userAvatar}
-                                        style={{
-                                            height: '50px',
-                                            width: '50px',
-                                            objectFit: 'cover',
-                                            borderRadius: '50%',
-                                        }}
-                                        alt="avatar"
-                                    />
-                                ) : (
-                                    <Image
-                                        className={cx('user-avt')}
-                                        src={image.noImage}
-                                        alt="User avatar"
-                                        fallback={image.logoHome}
-                                    />
-                                )} */}
                             <div>
                                 <span>Xin chào </span>
                                 <span>{nameUser?.length ? nameUser : user?.userName}</span>
@@ -176,9 +163,9 @@ function Header() {
                                 )}
                             </Menu>
 
-                            <Button onClick={handleLogout} outline>
+                            {/* <Button onClick={handleLogout} outline>
                                 <FontAwesomeIcon icon={faArrowRightFromBracket} />
-                            </Button>
+                            </Button> */}
                         </>
                     ) : (
                         <>

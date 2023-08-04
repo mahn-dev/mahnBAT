@@ -7,7 +7,7 @@ import styles from './Search.module.scss';
 import { LoadingIcon } from '~/components/Icons';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark, faSpinner, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faCircleXmark, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import ProductsItem from '~/components/ProductsItem';
 import * as searchServices from '~/services/searchService';
 

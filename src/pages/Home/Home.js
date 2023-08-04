@@ -8,41 +8,44 @@ import slider3 from '~/assets/sliderImg/slider-04.jpg';
 import { SliderComponent } from '~/components/SliderComponent/SliderComponent';
 import CartProducts from '~/components/CardProducts';
 import * as ProductService from '~/services/ProductService';
+import Sidebar from '~/layouts/components/Sidebar';
+import BusinessPartners from '~/layouts/components/BusinessPartners';
 
 const cx = classNames.bind(styles);
 
 function Home() {
     const fetchProductAll = async () => {
         const res = await ProductService.getAllProduct();
-        console.log(res);
         return res;
     };
+
     const { data: products } = useQuery(['products'], fetchProductAll, { retry: 3, retryDelay: 1000 });
-    const formatter = new Intl.NumberFormat('vi-VN', {
-        style: 'currency',
-        currency: 'VND',
-    });
+
     return (
         <div className={cx('wrapper')}>
-            <div>
+            <div className={cx('slider-container')}>
+                <Sidebar />
                 <SliderComponent arrImgs={[slider1, slider2, slider3]} />
-                <h2 className={cx('heading')}>Sản phẩm nổi bật</h2>
-                <div className={cx('products')}>
-                    {products?.data?.map((product) => {
-                        return (
-                            <CartProducts
-                                key={product._id}
-                                countInStock={product.countInStock}
-                                description={product.description}
-                                image={product.image}
-                                name={product.name}
-                                price={formatter.format(product.price)}
-                                type={product.type}
-                            />
-                        );
-                    })}
-                </div>
             </div>
+            <h2 className={cx('heading')}>Sản phẩm nổi bật</h2>
+            <div className={cx('products')}>
+                {products?.data?.map((product) => {
+                    return (
+                        <CartProducts
+                            className={cx('cart-product')}
+                            key={product._id}
+                            countInStock={product.countInStock}
+                            description={product.description}
+                            image={product.image}
+                            name={product.name}
+                            percentDiscount={product.percentDiscount}
+                            price={product.price}
+                            type={product.type}
+                        />
+                    );
+                })}
+            </div>
+            <BusinessPartners />
         </div>
     );
 }

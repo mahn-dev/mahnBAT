@@ -18,7 +18,7 @@ const publicRoutes = [
     {
         path: config.routes.home,
         page: Home,
-        isShowHeader: true,
+        layout: HeaderOnly,
     },
     {
         path: config.routes.products,

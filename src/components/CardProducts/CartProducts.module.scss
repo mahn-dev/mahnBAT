@@ -1,13 +1,13 @@
 .wrapper {
     width: 226px;
-    height: 400px;
+    height: 350px;
     position: relative;
 }
 
 .cart-img {
     width: 225px;
     height: 225px;
-    object-fit: cover;
+    object-fit: contain;
     border: 1px solid #e9ecef;
     border-radius: 12px;
 }
@@ -39,7 +39,16 @@
 }
 .cart-price {
     display: flex;
+}
+.price-wrapper {
+    display: flex;
     flex-direction: column;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 .original-price {
     text-decoration: line-through;
@@ -48,6 +57,23 @@
 .sale-price {
     color: var(--primary-color);
     font-size: 2rem;
+    font-weight: 600;
+    line-height: 2.6rem;
+}
+
+.percent-discount {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 40px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--white);
+    background-color: var(--primary-color);
+    border-radius: 8px;
+    font-size: 1.2rem;
     font-weight: 600;
 }
 .stock {

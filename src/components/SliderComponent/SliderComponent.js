@@ -24,7 +24,7 @@ export const SliderComponent = ({ arrImgs }) => {
         <div className={cx('wrapper')}>
             <Slider className={cx('slider')} {...settings}>
                 {arrImgs.map((image) => {
-                    return <Image className={cx('slick-img')} src={image} alt="slider" key={image} />;
+                    return <Image className={cx('slider-img')} src={image} alt="slider" key={image} />;
                 })}
             </Slider>
         </div>

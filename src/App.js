@@ -1,7 +1,7 @@
 import { Fragment, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { publicRoutes } from '~/routes';
 import DefaultLayout from '~/layouts';
@@ -32,7 +32,6 @@ function App() {
 
     UserService.axiosJWT.interceptors.request.use(
         async (config) => {
-            // Do something before request is sent
             const currentTime = new Date();
             const { decoded } = handleDecoded();
             let storageRefreshToken = localStorage.getItem('refresh_token');
