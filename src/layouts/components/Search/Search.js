@@ -18,24 +18,21 @@ function Search() {
     const [searchResult, setSearchResult] = useState([]);
     const [showResult, setShowResult] = useState(false);
     const [loading, setLoading] = useState(false);
+    const inputRef = useRef();
 
     const debouncedValue = useDebounce(searchValue, 600);
-
-    const inputRef = useRef();
 
     useEffect(() => {
         if (!debouncedValue.trim()) {
             setSearchResult([]);
             return;
         }
-
         const fetchApi = async () => {
             setLoading(true);
             const result = await searchServices.search(debouncedValue);
             setSearchResult(result);
             setLoading(false);
         };
-
         fetchApi();
     }, [debouncedValue]);
 
@@ -65,8 +62,14 @@ function Search() {
                     <div className={cx('search-result')} tabIndex="-1" {...attrs}>
                         <PopperWrapper>
                             <h4 className={cx('search-title')}>Sản phẩm</h4>
-                            {searchResult.map((result) => (
-                                <ProductsItem key={result.id} data={result} />
+                            {searchResult.map((product) => (
+                                <ProductsItem
+                                    key={product._id}
+                                    image={product.image}
+                                    name={product.name}
+                                    percentDiscount={product.percentDiscount}
+                                    price={product.price}
+                                />
                             ))}
                         </PopperWrapper>
                     </div>

@@ -29,21 +29,17 @@ function Home() {
             </div>
             <h2 className={cx('heading')}>Sản phẩm nổi bật</h2>
             <div className={cx('products')}>
-                {products?.data?.map((product) => {
-                    return (
-                        <CartProducts
-                            className={cx('cart-product')}
-                            key={product._id}
-                            countInStock={product.countInStock}
-                            description={product.description}
-                            image={product.image}
-                            name={product.name}
-                            percentDiscount={product.percentDiscount}
-                            price={product.price}
-                            type={product.type}
-                        />
-                    );
-                })}
+                {products?.data?.map((product) => (
+                    <CartProducts
+                        className={cx('cart-product')}
+                        key={product._id}
+                        countInStock={product.countInStock}
+                        image={product.image}
+                        name={product.name}
+                        percentDiscount={product.percentDiscount}
+                        price={product.price}
+                    />
+                ))}
             </div>
             <BusinessPartners />
         </div>

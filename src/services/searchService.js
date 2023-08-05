@@ -1,13 +1,8 @@
-import * as httpRequest from '~/utils/httpRequest';
+import * as ProductService from '~/services/ProductService';
 
-export const search = async (q, type = 'less') => {
+export const search = async (search) => {
     try {
-        const res = await httpRequest.get('users/search', {
-            params: {
-                q,
-                type,
-            },
-        });
+        const res = await ProductService.getAllProduct(search);
         return res.data;
     } catch (error) {
         console.log(error);
