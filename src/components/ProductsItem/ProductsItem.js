@@ -7,14 +7,14 @@ import Image from '~/components/Image';
 const cx = classNames.bind(styles);
 
 function ProductsItem(props) {
-    const { image, name, price, percentDiscount } = props;
+    const { id, image, name, price, percentDiscount } = props;
     const formatter = new Intl.NumberFormat({
         style: 'decimal',
     });
 
     const salePrice = price * ((100 - percentDiscount) / 100);
     return (
-        <Link to={`/product/${name}`} className={cx('wrapper')}>
+        <Link to={`/product-detail/${id}`} className={cx('wrapper')}>
             <Image className={cx('product-img')} src={image} alt={name} />
             <h4 className={cx('product-title')}>{name}</h4>
             <div className={cx('product-price')}>

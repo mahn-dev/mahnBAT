@@ -54,7 +54,6 @@ function AdminUser() {
 
     const getAllUsers = async () => {
         const res = await UserService.getAllUser();
-        console.log(res);
         return res;
     };
 

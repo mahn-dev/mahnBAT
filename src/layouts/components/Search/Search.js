@@ -65,6 +65,7 @@ function Search() {
                             {searchResult.map((product) => (
                                 <ProductsItem
                                     key={product._id}
+                                    id={product._id}
                                     image={product.image}
                                     name={product.name}
                                     percentDiscount={product.percentDiscount}

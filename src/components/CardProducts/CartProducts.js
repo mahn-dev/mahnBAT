@@ -8,7 +8,7 @@ import { CartBoxIcon, HeartIcon } from '~/components/Icons';
 const cx = classNames.bind(styles);
 
 function CartProducts(props) {
-    const { countInStock, image, name, price, percentDiscount } = props;
+    const { id, countInStock, image, name, price, percentDiscount } = props;
     const formatter = new Intl.NumberFormat({
         style: 'decimal',
     });
@@ -17,12 +17,12 @@ function CartProducts(props) {
 
     return (
         <div className={cx('wrapper')}>
-            <Link to={`/product/${name}`}>
+            <Link to={`/product-detail/${id}`}>
                 <Image className={cx('cart-img')} src={image} />
                 <HeartIcon className={cx('heart-icon')} />
             </Link>
             <div className={cx('content')}>
-                <Link className={cx('cart-link')} to={`/product/${name}`}>
+                <Link className={cx('cart-link')} to={`/product-detail/${id}`}>
                     <span className={cx('cart-link-title')}>{name}</span>
                 </Link>
                 <div className={cx('cart-price')}>

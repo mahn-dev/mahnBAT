@@ -9,7 +9,7 @@ const routes = {
     typeProducts: '/product/:type',
     signIn: '/sign-in',
     signUp: '/sign-up',
-    productDetail: '/product-detail',
+    productDetail: '/product-detail/:id',
     notfound: '*',
     profile: '/profile-user',
     admin: '/system/admin',
