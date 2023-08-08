@@ -88,7 +88,13 @@ const ProductDetail = ({ idProduct }) => {
                         <Button disabled={numProduct == 0} onClick={() => handleChangeCount('decrease')}>
                             -
                         </Button>
-                        <input className={cx('input')} type="number" value={numProduct} onChange={handleChange} />
+                        <input
+                            placeholder="1"
+                            className={cx('input')}
+                            type="number"
+                            value={numProduct}
+                            onChange={handleChange}
+                        />
                         <Button
                             disabled={
                                 productDetails?.countInStock === numProduct || productDetails?.countInStock < numProduct

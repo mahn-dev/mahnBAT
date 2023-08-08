@@ -19,7 +19,7 @@ function CartProducts(props) {
         <div className={cx('wrapper')}>
             <Link to={`/product-detail/${id}`}>
                 <Image className={cx('cart-img')} src={image} />
-                <HeartIcon className={cx('heart-icon')} />
+                <HeartIcon width="3.4rem" height="3.4rem" className={cx('heart-icon')} />
             </Link>
             <div className={cx('content')}>
                 <Link className={cx('cart-link')} to={`/product-detail/${id}`}>

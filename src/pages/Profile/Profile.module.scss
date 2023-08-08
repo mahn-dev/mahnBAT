@@ -1,15 +1,33 @@
-.username {
-    background-color: red;
-    color: red;
-}
-
 .upload {
     & .ant-upload.ant-upload-select.ant-upload-select-picture-card {
-        width: 60px;
-        height: 60px;
+        width: 600px;
+        height: 600px;
         border-radius: 50%;
     }
     & .ant-upload-list-item {
         display: none;
     }
+}
+
+.form {
+    width: 528px;
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.form-label {
+    display: flex;
+    // justify-content: flex-end;
+    flex: 1;
+    margin-right: 20px;
+}
+
+.form-input {
+    flex: 2;
+    font-size: 1.6rem;
+    color: var(--text-color);
+    padding: 10px 12px;
+    border: 1px solid var(--primary-color);
+    border-radius: 12px;
 }

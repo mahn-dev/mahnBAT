@@ -1,12 +1,12 @@
 const routes = {
     home: '/',
     products: '/products',
+    typeProducts: '/product/:type',
     cart: '/cart',
     about: '/about',
     newproducts: '/new-products',
     saleproducts: '/sale-products',
     batterycheck: '/battery-check',
-    typeProducts: '/product/:type',
     signIn: '/sign-in',
     signUp: '/sign-up',
     productDetail: '/product-detail/:id',

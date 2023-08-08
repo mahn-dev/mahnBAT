@@ -2,7 +2,7 @@ import config from '~/config';
 import { HeaderOnly } from '~/layouts';
 
 import Home from '~/pages/Home';
-import Products from '~/pages/Products';
+import Products from '~/pages/ProductsPage';
 import About from '~/pages/About';
 import Cart from '~/pages/Cart';
 import BatteryCheck from '~/pages/BatteryCheck';
@@ -23,6 +23,7 @@ const publicRoutes = [
     {
         path: config.routes.products,
         page: Products,
+        layout: HeaderOnly,
     },
     {
         path: config.routes.batterycheck,

@@ -10,6 +10,7 @@ import * as UserService from '~/services/UserService';
 import { updateUser } from '~/redux/slice/userSlice';
 import { Upload } from 'antd';
 import { getBase64 } from '~/utils';
+import { UploadImageIcon } from '~/components/Icons';
 
 const cx = classNames.bind(styles);
 
@@ -91,50 +92,78 @@ function Profile() {
         <div className={cx('wrapper')}>
             <h3>Trang thông tin người dùng</h3>
             <div>
-                <label htmlFor="name">Tên người dùng</label>
-                <InputForm id="name" placeholder="Nhập tên tài khoản" value={name} onChange={handleOnChangeName} />
-                <Button onClick={handleUpdate} primary>
-                    Lưu
-                </Button>
-            </div>
-            <div>
-                <label htmlFor="email">Email</label>
-                <InputForm id="email" placeholder="Nhập email" value={email} onChange={handleOnChangeEmail} />
-                <Button onClick={handleUpdate} primary>
-                    Lưu
-                </Button>
-            </div>
-            <div>
-                <label htmlFor="phone">Số điện thoại</label>
-                <InputForm id="phone" placeholder="Nhập số điện thoại" value={phone} onChange={handleOnChangePhone} />
-                <Button onClick={handleUpdate} primary>
-                    Lưu
-                </Button>
-            </div>
-            <div>
-                <label htmlFor="address">Địa chỉ</label>
-                <InputForm id="address" placeholder="Nhập địa chỉ" value={address} onChange={handleOnChangeAddress} />
-                <Button onClick={handleUpdate} primary>
-                    Lưu
-                </Button>
-            </div>
-            <div>
-                <label htmlFor="avatar">Avatar</label>
-                <Upload className={cx('upload')} onChange={handleOnChangeAvatar} maxCount={1}>
-                    <Button outline>avt</Button>
-                </Upload>
-                {avatar && (
-                    <img
-                        src={avatar}
-                        style={{
-                            height: '60px',
-                            width: '60px',
-                            objectFit: 'cover',
-                            borderRadius: '50%',
-                        }}
-                        alt="avatar"
+                <div className={cx('form')}>
+                    <label className={cx('form-label')} htmlFor="name">
+                        Tên người dùng*
+                    </label>
+                    <InputForm
+                        className={cx('form-input')}
+                        id="name"
+                        placeholder="Nhập tên tài khoản"
+                        value={name}
+                        onChange={handleOnChangeName}
                     />
-                )}
+                </div>
+                <div className={cx('form')}>
+                    <label className={cx('form-label')} htmlFor="email">
+                        Email
+                    </label>
+                    <InputForm
+                        className={cx('form-input')}
+                        id="email"
+                        placeholder="Nhập email"
+                        value={email}
+                        onChange={handleOnChangeEmail}
+                    />
+                </div>
+                <div className={cx('form')}>
+                    <label className={cx('form-label')} htmlFor="phone">
+                        Số điện thoại*
+                    </label>
+                    <InputForm
+                        className={cx('form-input')}
+                        id="phone"
+                        placeholder="Nhập số điện thoại"
+                        value={phone}
+                        onChange={handleOnChangePhone}
+                    />
+                </div>
+                <div className={cx('form')}>
+                    <label className={cx('form-label')} htmlFor="address">
+                        Địa chỉ nhận hàng*
+                    </label>
+                    <InputForm
+                        className={cx('form-input')}
+                        id="address"
+                        placeholder="Nhập địa chỉ"
+                        value={address}
+                        onChange={handleOnChangeAddress}
+                    />
+                </div>
+                <div className={cx('form')}>
+                    <label className={cx('form-label')} htmlFor="avatar">
+                        Avatar
+                    </label>
+                    <Upload className={cx('upload')} onChange={handleOnChangeAvatar} maxCount={1}>
+                        <Button leftIcon={<UploadImageIcon />} outline>
+                            Upload
+                        </Button>
+                    </Upload>
+                    {avatar && (
+                        <img
+                            src={avatar}
+                            style={{
+                                marginLeft: '20px',
+                                height: '100px',
+                                width: '100px',
+                                objectFit: 'cover',
+                                borderRadius: '50%',
+                                border: '1px solid var(--border-color) ',
+                            }}
+                            alt="avatar"
+                        />
+                    )}
+                </div>
                 <Button onClick={handleUpdate} primary>
                     Lưu
                 </Button>

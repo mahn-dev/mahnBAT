@@ -10,7 +10,6 @@ import {
     CartIcon,
     HeartIcon,
     VoucherIcon,
-    SettingIcon,
     UserIcon,
     LanguageIcon,
     BatteryIcon,
@@ -39,14 +38,6 @@ function Header() {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
 
-    const handleMenuChange = (menuItem) => {
-        switch (menuItem.type) {
-            case 'language':
-                break;
-            default:
-        }
-    };
-
     const handleLogout = async () => {
         await UserService.logoutUser();
         dispatch(resetUser());
@@ -74,14 +65,23 @@ function Header() {
         },
         {
             icon: <BatteryIcon />,
-            title: 'Kiểm tra pin',
+            title: 'Tra cứu bảo hành',
             to: '/batterycheck',
         },
         {
             icon: <InfoIcon />,
             title: 'Liên hệ',
+            to: '/voucher',
         },
     ];
+
+    const handleMenuChange = (notLoggedMenu) => {
+        switch (notLoggedMenu.type) {
+            case 'language':
+                break;
+            default:
+        }
+    };
 
     const loggedMenu = [
         {
@@ -93,11 +93,6 @@ function Header() {
             icon: <VoucherIcon />,
             title: 'Mã giảm giá',
             to: '/voucher',
-        },
-        {
-            icon: <SettingIcon />,
-            title: 'Cài đặt',
-            to: '/settings',
         },
         ...notLoggedMenu,
         {
@@ -162,10 +157,6 @@ function Header() {
                                     </button>
                                 )}
                             </Menu>
-
-                            {/* <Button onClick={handleLogout} outline>
-                                <FontAwesomeIcon icon={faArrowRightFromBracket} />
-                            </Button> */}
                         </>
                     ) : (
                         <>
