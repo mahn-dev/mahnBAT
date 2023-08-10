@@ -1,36 +1,33 @@
 import classNames from 'classnames/bind';
 import styles from './FilterNavbar.module.scss';
+import { useState, useEffect } from 'react';
+
+import * as ProductService from '~/services/ProductService';
+import TypeProduct from '~/components/TypeProduct';
 
 const cx = classNames.bind(styles);
 
 function FilterNavbar() {
-    const renderContent = (type, options) => {
-        switch (type) {
-            case 'text':
-                return options.map((options, i) => {
-                    return (
-                        <div className={cx('filter-wrapper')} key={i}>
-                            <h4 className={cx('filter-title')}>{options}</h4>
-                        </div>
-                    );
-                });
-            default:
-                return {};
+    const [typeProduct, setTypeProduct] = useState([]);
+
+    const fetchAllTypeProduct = async () => {
+        const res = await ProductService.getAllTypeProduct();
+        if (res?.status === 'OK') {
+            setTypeProduct(res?.data);
         }
+        return res;
     };
+
+    useEffect(() => {
+        fetchAllTypeProduct();
+    }, []);
+
     return (
         <div className={cx('wrapper')}>
             <h3 className={cx('filter-heading')}>Danh mục sản phẩm</h3>
-            <div className={cx('filter-content')}>
-                {renderContent('text', [
-                    'Pin 1-5S dòng xả thấp',
-                    'Pin 1-5S dòng xả cao',
-                    'Pin lưu trữ dung lượng lớn',
-                    'Sạc pin 1-5S 1A',
-                    'Sạc pin 1-5S 2A',
-                    'Sạc pin 1-5S 3A',
-                ])}
-            </div>
+            {typeProduct.map((item) => {
+                return <TypeProduct className={cx('type-product-link')} typeProduct={item} key={item} />;
+            })}
         </div>
     );
 }

@@ -1,0 +1,21 @@
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.loading-spinner {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    animation: spinner 1.5s ease-in-out infinite;
+}
+
+.spinner-container {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    height: 350px;
+}
