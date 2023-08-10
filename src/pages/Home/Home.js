@@ -10,25 +10,101 @@ import CartProducts from '~/components/CardProducts';
 import * as ProductService from '~/services/ProductService';
 import Sidebar from '~/layouts/components/Sidebar';
 import BusinessPartners from '~/layouts/components/BusinessPartners';
-import { useState } from 'react';
-import Button from '~/components/Button';
+import { useEffect, useState } from 'react';
+import Loading from '../../components/Loading/Loading';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const cx = classNames.bind(styles);
 
 function Home() {
-    const [limit, setLimit] = useState(10);
+    const type = 'Cell';
+    const [limit, setLimit] = useState(20);
+    const [typeProducts, setTypeProducts] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const fetchProductAll = async (context) => {
         const limit = context?.queryKey && context?.queryKey[1];
         const search = context?.queryKey && context?.queryKey[2];
+        setIsLoading(true);
         const res = await ProductService.getAllProduct(search, limit);
+        setIsLoading(false);
         return res;
     };
 
+    const fetchProductType = async (type) => {
+        const res = await ProductService.getProductType(type);
+        setTypeProducts(res?.data);
+
+        return res;
+    };
+
+    useEffect(() => {
+        if (type) {
+            fetchProductType(type);
+        }
+    }, [type]);
     const { data: products } = useQuery(['products', limit], fetchProductAll, {
         retry: 3,
         retryDelay: 1000,
         keepPreviousData: true,
     });
+
+    const NextArrow = (props) => {
+        const { className, style, onClick } = props;
+        return (
+            <div
+                className={className}
+                style={{
+                    ...style,
+                    display: 'flex',
+                    background: 'var(--primary-color)',
+                    padding: '20px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '12px',
+                    right: '20px',
+                }}
+                onClick={onClick}
+            />
+        );
+    };
+
+    const PrevArrow = (props) => {
+        const { className, style, onClick } = props;
+        return (
+            <div
+                className={className}
+                style={{
+                    ...style,
+                    display: 'flex',
+                    background: 'var(--primary-color)',
+                    padding: '20px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '12px',
+                    left: '20px',
+                    zIndex: 1,
+                }}
+                onClick={onClick}
+            />
+        );
+    };
+    const settings = {
+        autoplay: true,
+        autoplaySpeed: 2000,
+        arrows: true,
+        // dots: true,
+        infinite: true,
+        centerMode: true,
+        centerPadding: '-14px',
+        swipe: false,
+        speed: 400,
+        slidesToShow: 5,
+        slidesToScroll: 5,
+        nextArrow: <NextArrow className={cx('next-arrow')} />,
+        prevArrow: <PrevArrow className={cx('next-arrow')} />,
+    };
 
     return (
         <div className={cx('wrapper')}>
@@ -36,27 +112,57 @@ function Home() {
                 <Sidebar />
                 <SliderComponent arrImgs={[slider1, slider2, slider3]} />
             </div>
-            <h2 className={cx('heading')}>Sản phẩm nổi bật</h2>
-            <div className={cx('products')}>
-                {products?.data?.map((product) => (
-                    <CartProducts
-                        className={cx('cart-product')}
-                        key={product._id}
-                        id={product._id}
-                        countInStock={product.countInStock}
-                        image={product.image}
-                        name={product.name}
-                        percentDiscount={product.percentDiscount}
-                        price={product.price}
-                    />
-                ))}
-                <Button
-                    disabled={products?.total === products?.data?.length || products?.totalPage === 1}
-                    primary
-                    onClick={() => setLimit((prev) => prev + 5)}
-                >
-                    Xem thêm
-                </Button>
+
+            <div>
+                <h2 className={cx('heading')}>Sản phẩm nổi bật</h2>
+                {isLoading ? (
+                    <Loading />
+                ) : (
+                    <>
+                        <div className={cx('product')}>
+                            <Slider {...settings}>
+                                {products?.data?.map((product) => (
+                                    <CartProducts
+                                        className={cx('cart-product')}
+                                        key={product._id}
+                                        id={product._id}
+                                        countInStock={product.countInStock}
+                                        image={product.image}
+                                        name={product.name}
+                                        percentDiscount={product.percentDiscount}
+                                        price={product.price}
+                                    />
+                                ))}
+                            </Slider>
+                        </div>
+                    </>
+                )}
+            </div>
+
+            <div>
+                <h2 className={cx('heading')}>Pin dòng xả cao chuyên dùng cho máy công cụ</h2>
+                {isLoading ? (
+                    <Loading />
+                ) : (
+                    <>
+                        <div className={cx('product')}>
+                            <Slider {...settings}>
+                                {typeProducts?.map((typeProduct) => (
+                                    <CartProducts
+                                        className={cx('cart-product')}
+                                        key={typeProduct._id}
+                                        id={typeProduct._id}
+                                        countInStock={typeProduct.countInStock}
+                                        image={typeProduct.image}
+                                        name={typeProduct.name}
+                                        percentDiscount={typeProduct.percentDiscount}
+                                        price={typeProduct.price}
+                                    />
+                                ))}
+                            </Slider>
+                        </div>
+                    </>
+                )}
             </div>
             <BusinessPartners />
         </div>

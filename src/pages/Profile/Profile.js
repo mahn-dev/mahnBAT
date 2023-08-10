@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMutationHooks } from '~/hooks/useMutationHook';
+import { ToastContainer } from 'react-toastify';
 import classNames from 'classnames/bind';
 import styles from './Profile.module.scss';
 
@@ -11,12 +12,11 @@ import { updateUser } from '~/redux/slice/userSlice';
 import { Upload } from 'antd';
 import { getBase64 } from '~/utils';
 import { UploadImageIcon } from '~/components/Icons';
+import * as toast from '~/components/ToastMessage';
 
 const cx = classNames.bind(styles);
 
 function Profile() {
-    const dispatch = useDispatch();
-
     const user = useSelector((state) => state.user);
     const [username, setUsername] = useState('');
     const [name, setName] = useState('');
@@ -30,7 +30,9 @@ function Profile() {
         UserService.updateUser(id, rests, access_token);
     });
 
+    const dispatch = useDispatch();
     const { data, isSuccess, isError } = mutation;
+
     useEffect(() => {
         setUsername(user?.username);
         setName(user?.name);
@@ -42,8 +44,10 @@ function Profile() {
 
     useEffect(() => {
         if (isSuccess) {
+            toast.success();
             handleGetDetailsUser(user?.id, user?.access_token);
         } else if (isError) {
+            toast.error();
         }
     }, [isSuccess, isError]);
 
@@ -52,9 +56,6 @@ function Profile() {
         dispatch(updateUser({ ...res?.data, access_token: token }));
     };
 
-    const handleOnChangeUsername = (value) => {
-        setUsername(value);
-    };
     const handleOnChangeName = (value) => {
         setName(value);
     };
@@ -90,6 +91,7 @@ function Profile() {
 
     return (
         <div className={cx('wrapper')}>
+            <ToastContainer />
             <h3>Trang thông tin người dùng</h3>
             <div>
                 <div className={cx('form')}>

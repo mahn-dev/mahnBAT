@@ -1,4 +1,4 @@
-import { Form, Space, Upload } from 'antd';
+import { Form, Select, Space, Upload } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { DeleteOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons';
 
@@ -13,6 +13,7 @@ import { useMutationHooks } from '~/hooks/useMutationHook';
 import * as ProductService from '~/services/ProductService';
 import { useQuery } from '@tanstack/react-query';
 import { useSelector } from 'react-redux';
+import { renderOptions } from '~/utils';
 
 function AdminProduct() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,6 +22,7 @@ function AdminProduct() {
     const [rowSelected, setRowSelected] = useState('');
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
+    const [typeSelect, setTypeSelect] = useState('');
     const searchInput = useRef(null);
     const user = useSelector((state) => state?.user);
     const [stateProduct, setStateProduct] = useState({
@@ -118,12 +120,21 @@ function AdminProduct() {
         );
     };
 
+    const fetchAllTypeProduct = async () => {
+        const res = await ProductService.getAllTypeProduct();
+        // if (res?.status === 'OK') {
+        //     setTypeProduct(res?.data);
+        // }
+        return res;
+    };
+
     const { data, isSuccess, isError } = mutation;
     const { data: dataUpdated, isSuccess: isSuccessUpdated, isError: isErrorUpdated } = mutationUpdate;
     const { data: dataDeleted, isSuccess: isSuccessDeleted, isError: isErrorDeleted } = mutationDelete;
     const { data: dataDeletedMany, isSuccess: isSuccessDeletedMany, isError: isErrorDeletedMany } = mutationDeleteMany;
 
     const queryProduct = useQuery({ queryKey: ['products'], queryFn: getAllProducts });
+    const typeProduct = useQuery({ queryKey: ['type-product'], queryFn: fetchAllTypeProduct });
     const { data: products } = queryProduct;
     const renderAction = () => {
         return (
@@ -360,6 +371,17 @@ function AdminProduct() {
         );
     };
 
+    const handleChangeSelect = (value) => {
+        if (value !== 'add-type') {
+            setStateProduct({
+                ...stateProduct,
+                type: value,
+            });
+        } else {
+            setTypeSelect(value);
+        }
+    };
+
     return (
         <div>
             <h2>Quản lý sản phẩm</h2>
@@ -428,7 +450,15 @@ function AdminProduct() {
                             },
                         ]}
                     >
-                        <InputComponent value={stateProduct.type} onChange={handleOnChange} name="type" />
+                        <Select
+                            name="type"
+                            value={stateProduct.type}
+                            onChange={handleChangeSelect}
+                            options={renderOptions(typeProduct?.data?.data)}
+                        />
+                        {typeSelect === 'add-type' && (
+                            <InputComponent value={stateProduct.type} onChange={handleOnChange} name="type" />
+                        )}
                     </Form.Item>
                     <Form.Item
                         label="Mô tả sản phẩm"

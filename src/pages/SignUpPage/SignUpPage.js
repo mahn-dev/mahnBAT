@@ -8,6 +8,8 @@ import InputForm from '~/components/InputForm';
 import Button from '~/components/Button';
 import * as UserService from '~/services/UserService';
 import { useMutationHooks } from '~/hooks/useMutationHook';
+import { ToastContainer } from 'react-toastify';
+import * as toast from '~/components/ToastMessage';
 
 const cx = classNames.bind(styles);
 
@@ -23,8 +25,10 @@ function SignUpPage() {
 
     useEffect(() => {
         if (isSuccess) {
+            toast.success();
             handleNavigateSignIn();
         } else if (isError) {
+            toast.error();
         }
     }, [isSuccess, isError]);
 
@@ -56,6 +60,7 @@ function SignUpPage() {
 
     return (
         <div className={cx('wrapper')}>
+            <ToastContainer />
             <div className={cx('container')}>
                 <h2 className={cx('heading')}>Đăng ký</h2>
                 <div className={cx('form-container')}>
