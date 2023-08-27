@@ -3,15 +3,12 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './ProductsItem.module.scss';
 import Image from '~/components/Image';
+import { convertPrice } from '~/utils';
 
 const cx = classNames.bind(styles);
 
 function ProductsItem(props) {
     const { id, image, name, price, percentDiscount } = props;
-    const formatter = new Intl.NumberFormat({
-        style: 'decimal',
-    });
-
     const salePrice = price * ((100 - percentDiscount) / 100);
     return (
         <Link to={`/product-detail/${id}`} className={cx('wrapper')}>
@@ -20,12 +17,12 @@ function ProductsItem(props) {
             <div className={cx('product-price')}>
                 {price === salePrice ? (
                     <>
-                        <span className={cx('sale-price')}>{formatter.format(price)} ₫</span>
+                        <span className={cx('sale-price')}>{convertPrice(price)}</span>
                     </>
                 ) : (
                     <>
-                        <span className={cx('original-price')}>{formatter.format(price)} ₫</span>
-                        <span className={cx('sale-price')}>{formatter.format(salePrice)} ₫</span>
+                        <span className={cx('original-price')}>{convertPrice(price)}</span>
+                        <span className={cx('sale-price')}>{convertPrice(salePrice)}</span>
                     </>
                 )}
             </div>

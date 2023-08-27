@@ -4,15 +4,12 @@ import { Link } from 'react-router-dom';
 
 import Image from '~/components/Image';
 import { CartBoxIcon, HeartIcon } from '~/components/Icons';
+import { convertPrice } from '~/utils';
 
 const cx = classNames.bind(styles);
 
 function CartProducts(props) {
     const { id, countInStock, image, name, price, percentDiscount } = props;
-    const formatter = new Intl.NumberFormat({
-        style: 'decimal',
-    });
-
     const salePrice = price * ((100 - percentDiscount) / 100);
 
     return (
@@ -28,14 +25,14 @@ function CartProducts(props) {
                 <div className={cx('cart-price')}>
                     {price === salePrice ? (
                         <>
-                            <span className={cx('sale-price')}>{formatter.format(price)} ₫</span>
+                            <span className={cx('sale-price')}>{convertPrice(price)}</span>
                         </>
                     ) : (
                         <>
                             <div className={cx('price-wrapper')}>
-                                <span className={cx('original-price')}>{formatter.format(price)} ₫</span>
+                                <span className={cx('original-price')}>{convertPrice(price)}</span>
                                 <div className={cx('price')}>
-                                    <span className={cx('sale-price')}>{formatter.format(salePrice)} ₫</span>
+                                    <span className={cx('sale-price')}>{convertPrice(salePrice)}</span>
                                     <span className={cx('percent-discount')}>{percentDiscount}%</span>
                                 </div>
                             </div>
