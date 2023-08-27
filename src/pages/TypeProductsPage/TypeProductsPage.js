@@ -23,7 +23,6 @@ function TypeProducts() {
 
     const fetchProductType = async (type, page, limit) => {
         const res = await ProductService.getProductType(type, page, limit);
-        console.log(res);
         if (res?.status == 'OK') {
             setProducts(res?.data);
             setPaginate({ ...paginate, total: res?.totalPage });
@@ -37,12 +36,9 @@ function TypeProducts() {
         }
     }, [state, paginate.page, paginate.limit]);
 
-    const onShowSizeChange = (current, pageSize) => {
-        console.log(current, pageSize);
-    };
+    const onShowSizeChange = (current, pageSize) => {};
 
     const onChange = (current, pageSize) => {
-        console.log({ current, pageSize });
         setPaginate({ ...paginate, page: current - 1, limit: pageSize });
     };
     return (

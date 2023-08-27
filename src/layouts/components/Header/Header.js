@@ -3,7 +3,7 @@ import styles from './Header.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -35,12 +35,23 @@ function Header() {
     const [userName, setUserName] = useState('');
     const [nameUser, setNameUser] = useState('');
     const [userAvatar, setUserAvatar] = useState('');
+    const navigate = useNavigate();
+    const order = useSelector((state) => state.order);
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
 
     const handleLogout = async () => {
         await UserService.logoutUser();
         dispatch(resetUser());
+    };
+
+    const handleClickNavigate = () => {
+        navigate('/my-order', {
+            state: {
+                id: user?.id,
+                token: user?.access_token,
+            },
+        });
     };
 
     const notLoggedMenu = [
@@ -90,6 +101,12 @@ function Header() {
             to: '/profile-user',
         },
         {
+            icon: <UserIcon />,
+            title: 'Đơn hàng của tôi',
+            // to: '/my-order',
+            onClick: handleClickNavigate,
+        },
+        {
             icon: <VoucherIcon />,
             title: 'Mã giảm giá',
             to: '/voucher',
@@ -137,10 +154,10 @@ function Header() {
                                 </button>
                             </Tippy>
                             <Tippy content="Theo dõi đơn hàng" placement="bottom">
-                                <button className={cx('action-btn')}>
+                                <Button to={config.routes.order} className={cx('action-btn')}>
                                     <CartIcon />
-                                    <span className={cx('badge')}>0</span>
-                                </button>
+                                    <span className={cx('badge')}>{order?.orderItems?.length}</span>
+                                </Button>
                             </Tippy>
 
                             <Menu items={user?.access_token ? loggedMenu : notLoggedMenu} onChange={handleMenuChange}>

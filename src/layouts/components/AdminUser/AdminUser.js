@@ -53,7 +53,7 @@ function AdminUser() {
     });
 
     const getAllUsers = async () => {
-        const res = await UserService.getAllUser();
+        const res = await UserService.getAllUser(user?.access_token);
         return res;
     };
 
@@ -332,7 +332,7 @@ function AdminUser() {
     };
     return (
         <div>
-            <h2>User</h2>
+            <h2>Quản lý người dùng</h2>
             <TableComponent
                 handleDeleteMany={handleDeleteManyUsers}
                 columns={columns}

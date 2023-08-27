@@ -21,18 +21,6 @@ function SignInPage() {
     const { data, isSuccess } = mutation;
     const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     if (isSuccess) {
-    //         navigate('/');
-    //         localStorage.setItem('access_token', JSON.stringify(data?.access_token));
-    //         if (data?.access_token) {
-    //             const decoded = jwt_decode(data?.access_token);
-    //             if (decoded?.id) {
-    //                 handleGetDetailsUser(decoded?.id, data?.access_token);
-    //             }
-    //         }
-    //     }
-    // }, [isSuccess]);
     useEffect(() => {
         if (isSuccess) {
             if (location?.state) {
@@ -50,11 +38,6 @@ function SignInPage() {
             }
         }
     }, [isSuccess]);
-
-    // const handleGetDetailsUser = async (id, token) => {
-    //     const res = await UserService.getDetailsUser(id, token);
-    //     dispatch(updateUser({ ...res?.data, access_token: token }));
-    // };
 
     const handleGetDetailsUser = async (id, token) => {
         const storage = localStorage.getItem('refresh_token');

@@ -9,13 +9,23 @@ import * as ProductService from '~/services/ProductService';
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { addOrderProduct, resetOrder } from '~/redux/slice/orderSlice';
+import { convertPrice } from '~/utils';
+import { useEffect } from 'react';
+import * as toast from '~/components/ToastMessage';
+import { ToastContainer } from 'react-toastify';
 const cx = classNames.bind(styles);
 
 const ProductDetail = ({ idProduct }) => {
-    const formatter = new Intl.NumberFormat({
-        style: 'decimal',
-    });
+    const user = useSelector((state) => state.user);
+    const order = useSelector((state) => state.order);
+    const [errLimitOrder, setErrLimitOrder] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const dispatch = useDispatch();
+
     const [numProduct, setNumProduct] = useState('');
 
     const handleChange = (e) => {
@@ -30,11 +40,36 @@ const ProductDetail = ({ idProduct }) => {
         }
     };
 
-    const handleChangeCount = (type) => {
+    useEffect(() => {
+        const orderRedux = order?.orderItems?.find((item) => item.product === productDetails?._id);
+        if (
+            orderRedux?.amount + numProduct <= orderRedux?.countInStock ||
+            (!orderRedux && productDetails?.countInStock > 0)
+        ) {
+            setErrLimitOrder(false);
+        } else if (productDetails?.countInStock === 0) {
+            setErrLimitOrder(true);
+        }
+    }, [numProduct]);
+
+    useEffect(() => {
+        if (order.isSuccessOrder) {
+            toast.success('Đã thêm vào giỏ hàng!');
+        }
+        return () => {
+            dispatch(resetOrder());
+        };
+    }, [order.isSuccessOrder]);
+
+    const handleChangeCount = (type, limit) => {
         if (type === 'increase') {
-            setNumProduct(numProduct + 1 - 1 + 1);
+            if (!limit) {
+                setNumProduct(numProduct + 1 - 1 + 1);
+            }
         } else {
-            setNumProduct(numProduct - 1);
+            if (!limit) {
+                setNumProduct(numProduct - 1);
+            }
         }
     };
     const { data: productDetails } = useQuery(['product-detail', idProduct], fetchGetDetailsProduct, {
@@ -42,8 +77,37 @@ const ProductDetail = ({ idProduct }) => {
     });
     const salePrice = productDetails?.price * ((100 - productDetails?.percentDiscount) / 100);
 
+    const handleAddOrderProduct = () => {
+        if (!user?.id) {
+            navigate('/sign-in', { state: location?.pathname });
+        } else {
+            const orderRedux = order?.orderItems?.find((item) => item.product === productDetails?._id);
+            if (
+                orderRedux?.amount + numProduct <= orderRedux?.countInStock ||
+                (!orderRedux && productDetails?.countInStock > 0)
+            ) {
+                dispatch(
+                    addOrderProduct({
+                        orderItem: {
+                            name: productDetails?.name,
+                            amount: numProduct,
+                            image: productDetails?.image,
+                            price: salePrice,
+                            percentDiscount: productDetails?.percentDiscount,
+                            countInStock: productDetails?.countInStock,
+                            product: productDetails?._id,
+                        },
+                    }),
+                );
+            } else {
+                setErrLimitOrder(true);
+            }
+        }
+    };
+
     return (
         <div className={cx('wrapper')}>
+            <ToastContainer />
             <div className={cx('product-img')}>
                 <Image className={cx('product-img-large')} src={productDetails?.image} />
                 <div className={cx('product-sub-img')}>
@@ -75,8 +139,8 @@ const ProductDetail = ({ idProduct }) => {
                     </div>
                 </div>
                 <div className={cx('price')}>
-                    <span className={cx('original-price')}>{formatter.format(productDetails?.price)} ₫</span>
-                    <span className={cx('sale-price')}>{formatter.format(salePrice)} ₫</span>
+                    <span className={cx('original-price')}>{convertPrice(productDetails?.price)}</span>
+                    <span className={cx('sale-price')}>{convertPrice(salePrice)}</span>
                 </div>
                 <ul className={cx('product-decs-list')}>
                     <li>Dòng xả cao 40A</li>
@@ -85,10 +149,15 @@ const ProductDetail = ({ idProduct }) => {
                 </ul>
                 <div className={cx('action')}>
                     <div className={cx('action-input')}>
-                        <Button disabled={numProduct == 0} onClick={() => handleChangeCount('decrease')}>
+                        <Button
+                            disabled={numProduct == 0}
+                            onClick={() => handleChangeCount('decrease', numProduct === 1)}
+                        >
                             -
                         </Button>
                         <input
+                            min={1}
+                            max={productDetails?.countInStock}
                             placeholder="1"
                             className={cx('input')}
                             type="number"
@@ -96,21 +165,28 @@ const ProductDetail = ({ idProduct }) => {
                             onChange={handleChange}
                         />
                         <Button
+                            // disabled={
+                            //     productDetails?.countInStock === numProduct || productDetails?.countInStock < numProduct
+                            // }
                             disabled={
                                 productDetails?.countInStock === numProduct || productDetails?.countInStock < numProduct
                             }
-                            onClick={() => handleChangeCount('increase')}
+                            onClick={() => handleChangeCount('increase', numProduct === productDetails?.countInStock)}
                         >
                             +
                         </Button>
                     </div>
                     <Button
+                        onClick={handleAddOrderProduct}
                         leftIcon={<CartIcon width={'2.4rem'} height={'2.4rem'} />}
                         className={cx('buy-button')}
                         primary
                     >
-                        <span className={cx('buy-button-text')}>Mua ngay</span>
+                        <span className={cx('buy-button-text')}>
+                            {errLimitOrder ? 'Sản phẩm đã hết hàng' : 'Mua ngay'}
+                        </span>
                     </Button>
+                    {/* {errLimitOrder && 'Sản phẩm đã hết hàng'} */}
                 </div>
             </div>
         </div>

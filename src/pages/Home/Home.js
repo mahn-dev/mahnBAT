@@ -119,7 +119,7 @@ function Home() {
                     <Loading />
                 ) : (
                     <>
-                        <div className={cx('product')}>
+                        <div className={cx('slider-product')}>
                             <Slider {...settings}>
                                 {products?.data?.map((product) => (
                                     <CartProducts
@@ -146,20 +146,20 @@ function Home() {
                 ) : (
                     <>
                         <div className={cx('product')}>
-                            <Slider {...settings}>
-                                {typeProducts?.map((typeProduct) => (
-                                    <CartProducts
-                                        className={cx('cart-product')}
-                                        key={typeProduct._id}
-                                        id={typeProduct._id}
-                                        countInStock={typeProduct.countInStock}
-                                        image={typeProduct.image}
-                                        name={typeProduct.name}
-                                        percentDiscount={typeProduct.percentDiscount}
-                                        price={typeProduct.price}
-                                    />
-                                ))}
-                            </Slider>
+                            {/* <Slider {...settings}> */}
+                            {typeProducts?.map((typeProduct) => (
+                                <CartProducts
+                                    className={cx('cart-product')}
+                                    key={typeProduct._id}
+                                    id={typeProduct._id}
+                                    countInStock={typeProduct.countInStock}
+                                    image={typeProduct.image}
+                                    name={typeProduct.name}
+                                    percentDiscount={typeProduct.percentDiscount}
+                                    price={typeProduct.price}
+                                />
+                            ))}
+                            {/* </Slider> */}
                         </div>
                     </>
                 )}
