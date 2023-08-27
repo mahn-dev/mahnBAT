@@ -13,6 +13,11 @@ import SignUpPage from '~/pages/SignUpPage';
 import ProductDetailPage from '~/pages/ProductDetailPage';
 import Profile from '~/pages/Profile';
 import AdminPage from '~/pages/AdminPage';
+import OrderPage from '~/pages/OrderPage';
+import PaymentPage from '~/pages/PaymentPage';
+import OrderSuccessPage from '~/pages/OrderSuccessPage';
+import MyOrderPage from '~/pages/MyOrderPage';
+import DetailsOrderPage from '~/pages/DetailsOrderPage';
 
 const publicRoutes = [
     {
@@ -68,6 +73,31 @@ const publicRoutes = [
     {
         path: config.routes.profile,
         page: Profile,
+        layout: HeaderOnly,
+    },
+    {
+        path: config.routes.order,
+        page: OrderPage,
+        layout: HeaderOnly,
+    },
+    {
+        path: config.routes.payment,
+        page: PaymentPage,
+        layout: HeaderOnly,
+    },
+    {
+        path: config.routes.orderSuccess,
+        page: OrderSuccessPage,
+        layout: HeaderOnly,
+    },
+    {
+        path: config.routes.myOrder,
+        page: MyOrderPage,
+        layout: HeaderOnly,
+    },
+    {
+        path: config.routes.detailsOrder,
+        page: DetailsOrderPage,
         layout: HeaderOnly,
     },
     {
