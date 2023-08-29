@@ -1,18 +1,18 @@
 // import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
-import styles from './ProductsItem.module.scss';
-import Image from '~/components/Image';
+import styles from './SearchProductComponent.module.scss';
+import ImageComponent from '~/components/ImageComponent';
 import { convertPrice } from '~/utils';
 
 const cx = classNames.bind(styles);
 
-function ProductsItem(props) {
+function SearchProductComponent(props) {
     const { id, image, name, price, percentDiscount } = props;
     const salePrice = price * ((100 - percentDiscount) / 100);
     return (
         <Link to={`/product-detail/${id}`} className={cx('wrapper')}>
-            <Image className={cx('product-img')} src={image} alt={name} />
+            <ImageComponent className={cx('product-img')} src={image} alt={name} />
             <h4 className={cx('product-title')}>{name}</h4>
             <div className={cx('product-price')}>
                 {price === salePrice ? (
@@ -30,8 +30,8 @@ function ProductsItem(props) {
     );
 }
 
-// ProductsItem.propTypes = {
+// SearchProductComponent.propTypes = {
 //     props: PropTypes.object.isRequired,
 // };
 
-export default ProductsItem;
+export default SearchProductComponent;

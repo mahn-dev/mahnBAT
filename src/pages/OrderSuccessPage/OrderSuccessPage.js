@@ -2,24 +2,11 @@ import classNames from 'classnames/bind';
 import styles from './OrderSuccessPage.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Button from '~/components/Button';
-import { useMutationHooks } from '~/hooks/useMutationHook';
-import * as UserService from '~/services/UserService';
-import * as OrderService from '~/services/OrderService';
-import { updateUser } from '~/redux/slice/userSlice';
-
-import {
-    increaseAmount,
-    decreaseAmount,
-    removeOrderProduct,
-    removeAllOrderProduct,
-    selectedOrder,
-} from '~/redux/slice/orderSlice';
 import { Checkbox, Form, Radio } from 'antd';
 import { useEffect, useState } from 'react';
 import { convertPrice } from '~/utils';
 import { useMemo } from 'react';
-import * as toast from '~/components/ToastMessage';
+import * as toast from '~/components/ToastMessageComponent';
 import { ToastContainer } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import { orderContant } from '~/contant';
@@ -105,6 +92,8 @@ function OrderSuccessPage() {
 
             <div>
                 <div>
+                    <span>Tên người nhận: {user?.name}</span>
+                    <span>Số điện thoại người nhận: {user?.phone}</span>
                     <span>Địa chỉ giao hàng: {user?.address}</span>
                 </div>
                 {/* <span>Tạm tính: {convertPrice(priceMemo)}</span>

@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutationHooks } from '~/hooks/useMutationHook';
 
-import Button from '~/components/Button';
+import ButtonComponent from '~/components/ButtonComponent';
 
 const cx = classNames.bind(styles);
 
@@ -106,12 +106,12 @@ function MyOrderPage() {
 
                         <div>{renderProduct(order?.orderItems)}</div>
                         <span>Tổng tiền: {order?.totalPrice}</span>
-                        <Button onClick={() => handleDetailsOrder(order?._id)} outline>
+                        <ButtonComponent onClick={() => handleDetailsOrder(order?._id)} outline>
                             Xem chi tiết
-                        </Button>
-                        <Button onClick={() => handleCancelOrder(order)} outline>
+                        </ButtonComponent>
+                        <ButtonComponent onClick={() => handleCancelOrder(order)} outline>
                             Huỷ đơn hàng
-                        </Button>
+                        </ButtonComponent>
                     </div>
                 );
             })}

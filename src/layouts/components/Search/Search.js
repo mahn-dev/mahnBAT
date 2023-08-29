@@ -8,8 +8,8 @@ import { LoadingIcon } from '~/components/Icons';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import ProductsItem from '~/components/ProductsItem';
-import * as searchServices from '~/services/searchService';
+import SearchProductComponent from '~/components/SearchProductComponent';
+import * as SearchServices from '~/services/SearchService';
 
 const cx = classNames.bind(styles);
 
@@ -29,7 +29,7 @@ function Search() {
         }
         const fetchApi = async () => {
             setLoading(true);
-            const result = await searchServices.search(debouncedValue);
+            const result = await SearchServices.search(debouncedValue);
             setSearchResult(result);
             setLoading(false);
         };
@@ -63,7 +63,7 @@ function Search() {
                         <PopperWrapper>
                             <h4 className={cx('search-title')}>Sản phẩm</h4>
                             {searchResult.map((product) => (
-                                <ProductsItem
+                                <SearchProductComponent
                                     key={product._id}
                                     id={product._id}
                                     image={product.image}

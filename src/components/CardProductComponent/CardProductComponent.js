@@ -1,28 +1,28 @@
 import classNames from 'classnames/bind';
-import styles from './CartProducts.module.scss';
-import { Link } from 'react-router-dom';
+import styles from './CardProductComponent.module.scss';
 
-import Image from '~/components/Image';
-import { CartBoxIcon, HeartIcon } from '~/components/Icons';
+import { Link } from 'react-router-dom';
 import { convertPrice } from '~/utils';
+
+import ImageComponent from '~/components/ImageComponent';
+import { CartBoxIcon } from '~/components/Icons';
 
 const cx = classNames.bind(styles);
 
-function CartProducts(props) {
+function CardProductComponent(props) {
     const { id, countInStock, image, name, price, percentDiscount } = props;
     const salePrice = price * ((100 - percentDiscount) / 100);
 
     return (
         <div className={cx('wrapper')}>
             <Link to={`/product-detail/${id}`}>
-                <Image className={cx('cart-img')} src={image} />
-                <HeartIcon width="3.4rem" height="3.4rem" className={cx('heart-icon')} />
+                <ImageComponent className={cx('card__img')} src={image} />
             </Link>
-            <div className={cx('content')}>
-                <Link className={cx('cart-link')} to={`/product-detail/${id}`}>
-                    <span className={cx('cart-link-title')}>{name}</span>
+            <main className={cx('card__container')}>
+                <Link to={`/product-detail/${id}`}>
+                    <span className={cx('card__link-title')}>{name}</span>
                 </Link>
-                <div className={cx('cart-price')}>
+                <section className={cx('card__price')}>
                     {price === salePrice ? (
                         <>
                             <span className={cx('sale-price')}>{convertPrice(price)}</span>
@@ -38,8 +38,8 @@ function CartProducts(props) {
                             </div>
                         </>
                     )}
-                </div>
-                <div className={cx('stock')}>
+                </section>
+                <section className={cx('stock')}>
                     {countInStock === 0 ? (
                         <>
                             <CartBoxIcon className={cx('stock__title--out-of-stock')} />
@@ -51,10 +51,10 @@ function CartProducts(props) {
                             <span className={cx('stock__title')}>Còn {countInStock} sản phẩm</span>
                         </>
                     )}
-                </div>
-            </div>
+                </section>
+            </main>
         </div>
     );
 }
 
-export default CartProducts;
+export default CardProductComponent;

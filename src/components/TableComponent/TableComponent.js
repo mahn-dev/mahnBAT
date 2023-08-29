@@ -2,7 +2,7 @@ import { Table } from 'antd';
 import { Excel } from 'antd-table-saveas-excel';
 import { useMemo, useState } from 'react';
 
-import Button from '~/components/Button';
+import ButtonComponent from '~/components/ButtonComponent';
 
 function TableComponent(props) {
     const { selectionType = 'checkbox', data: dataSource = [], columns = [], handleDeleteMany } = props;
@@ -39,13 +39,13 @@ function TableComponent(props) {
     return (
         <div>
             {rowSelectedKeys.length > 0 && (
-                <Button onClick={handleDeleteAll} outline>
+                <ButtonComponent onClick={handleDeleteAll} outline>
                     Xoá
-                </Button>
+                </ButtonComponent>
             )}
-            <Button outline onClick={exportExcel}>
+            <ButtonComponent outline onClick={exportExcel}>
                 Xuất file Excel
-            </Button>
+            </ButtonComponent>
             <Table
                 rowSelection={{
                     type: selectionType,

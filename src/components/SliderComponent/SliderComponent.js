@@ -3,7 +3,7 @@ import Slider from 'react-slick';
 import classNames from 'classnames/bind';
 import styles from './SliderComponent.module.scss';
 
-import Image from '~/components/Image';
+import ImageComponent from '~/components/ImageComponent';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -24,7 +24,7 @@ export const SliderComponent = ({ arrImgs }) => {
         <div className={cx('wrapper')}>
             <Slider className={cx('slider')} {...settings}>
                 {arrImgs.map((image) => {
-                    return <Image className={cx('slider-img')} src={image} alt="slider" key={image} />;
+                    return <ImageComponent className={cx('slider-img')} src={image} alt="slider" key={image} />;
                 })}
             </Slider>
         </div>

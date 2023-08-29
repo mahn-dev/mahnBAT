@@ -6,11 +6,13 @@ import jwt_decode from 'jwt-decode';
 import classNames from 'classnames/bind';
 import styles from './SignInPage.module.scss';
 
-import InputForm from '~/components/InputForm';
-import Button from '~/components/Button';
+import InputFormComponent from '~/components/InputFormComponent';
+import ButtonComponent from '~/components/ButtonComponent';
 import * as UserService from '~/services/UserService';
 import { useMutationHooks } from '~/hooks/useMutationHook';
 import { updateUser } from '~/redux/slice/userSlice';
+import * as toast from '~/components/ToastMessageComponent';
+import { ToastContainer } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
@@ -18,14 +20,17 @@ function SignInPage() {
     const location = useLocation();
     const navigate = useNavigate();
     const mutation = useMutationHooks((data) => UserService.loginUser(data));
-    const { data, isSuccess } = mutation;
     const dispatch = useDispatch();
+    console.log(location);
 
+    const { data, isSuccess } = mutation;
     useEffect(() => {
         if (isSuccess) {
             if (location?.state) {
                 navigate(location?.state);
+                // navigate('/');
             } else {
+                toast.error('Nhập lại tên tài khoản / Mật khẩu');
                 navigate('/');
             }
             localStorage.setItem('access_token', JSON.stringify(data?.access_token));
@@ -64,27 +69,37 @@ function SignInPage() {
     };
     return (
         <div className={cx('wrapper')}>
+            <ToastContainer />
             <div className={cx('container')}>
                 <h2 className={cx('heading')}>Đăng nhập</h2>
                 <div className={cx('form-container')}>
                     <div className={cx('form-item')}>
-                        <span className={cx('form-title')}>Tên tài khoản *</span>
-                        <InputForm value={username} onChange={handleOnChangeUsername} />
+                        <label for="name" className={cx('form-title')}>
+                            Tên tài khoản *
+                        </label>
+                        <InputFormComponent id="name" value={username} onChange={handleOnChangeUsername} />
                     </div>
                     <div className={cx('form-item')}>
-                        <span className={cx('form-title')}>Mật khẩu *</span>
-                        <InputForm type="password" value={password} onChange={handleOnChangePassword} />
+                        <label for="password" className={cx('form-title')}>
+                            Mật khẩu *
+                        </label>
+                        <InputFormComponent
+                            id="password"
+                            type="password"
+                            value={password}
+                            onChange={handleOnChangePassword}
+                        />
                     </div>
                 </div>
                 {/* {data?.status === 'err' && <span>{data?.message}</span>} */}
-                <Button
+                <ButtonComponent
                     className={cx('login-btn')}
                     onClick={handleSignIn}
                     disabled={!username || !password.length}
                     primary
                 >
                     Đăng nhập
-                </Button>
+                </ButtonComponent>
             </div>
             <div className={cx('action')}>
                 <Link className={cx('lost-password')} to="/sign-up">

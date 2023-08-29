@@ -2,8 +2,8 @@ import classNames from 'classnames/bind';
 import styles from './ProductsPage.module.scss';
 
 import FilterNavbar from '~/layouts/components/FilterNavbar';
-import CartProducts from '~/components/CardProducts';
-import Button from '~/components/Button';
+import CardProductComponent from '~/components/CardProductComponent';
+import ButtonComponent from '~/components/ButtonComponent';
 import { useEffect, useState } from 'react';
 import * as ProductService from '~/services/ProductService';
 import { useQuery } from '@tanstack/react-query';
@@ -40,7 +40,7 @@ function TypeProducts() {
                 </div>
                 <div className={cx('container')}>
                     {products?.data?.map((product) => (
-                        <CartProducts
+                        <CardProductComponent
                             className={cx('cart-product')}
                             key={product._id}
                             id={product._id}
@@ -51,13 +51,13 @@ function TypeProducts() {
                             price={product.price}
                         />
                     ))}
-                    <Button
+                    <ButtonComponent
                         disabled={products?.total === products?.data?.length || products?.totalPage === 1}
                         primary
                         onClick={() => setLimit((prev) => prev + 10)}
                     >
                         Xem thêm
-                    </Button>
+                    </ButtonComponent>
                 </div>
             </div>
         </div>

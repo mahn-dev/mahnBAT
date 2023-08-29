@@ -21,10 +21,10 @@ import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import config from '~/config';
 
-import Button from '~/components/Button';
+import ButtonComponent from '~/components/ButtonComponent';
 import image from '~/assets/img';
 import Menu from '~/components/Popper/Menu';
-import Image from '~/components/Image';
+import ImageComponent from '~/components/ImageComponent';
 import Search from '../Search';
 import * as UserService from '~/services/UserService';
 import { resetUser } from '~/redux/slice/userSlice';
@@ -143,9 +143,9 @@ function Header() {
                             </div>
 
                             {user?.isAdmin && (
-                                <Button className={cx('admin-btn')} to="/system/admin" primary>
+                                <ButtonComponent className={cx('admin-btn')} to="/system/admin" primary>
                                     <AdminIcon />
-                                </Button>
+                                </ButtonComponent>
                             )}
 
                             <Tippy content="Sản phẩm yêu thích" placement="bottom">
@@ -154,15 +154,15 @@ function Header() {
                                 </button>
                             </Tippy>
                             <Tippy content="Theo dõi đơn hàng" placement="bottom">
-                                <Button to={config.routes.order} className={cx('action-btn')}>
+                                <ButtonComponent to={config.routes.order} className={cx('action-btn')}>
                                     <CartIcon />
                                     <span className={cx('badge')}>{order?.orderItems?.length}</span>
-                                </Button>
+                                </ButtonComponent>
                             </Tippy>
 
                             <Menu items={user?.access_token ? loggedMenu : notLoggedMenu} onChange={handleMenuChange}>
                                 {user?.access_token ? (
-                                    <Image
+                                    <ImageComponent
                                         className={cx('user-avt')}
                                         src={userAvatar}
                                         alt="User avatar"
@@ -177,12 +177,12 @@ function Header() {
                         </>
                     ) : (
                         <>
-                            <Button to="/sign-in" primary>
+                            <ButtonComponent to="/sign-in" primary>
                                 Đăng nhập
-                            </Button>
+                            </ButtonComponent>
                             <Menu items={user?.access_token ? loggedMenu : notLoggedMenu} onChange={handleMenuChange}>
                                 {user?.access_token ? (
-                                    <Image
+                                    <ImageComponent
                                         className={cx('user-avt')}
                                         src={userAvatar}
                                         alt="User avatar"

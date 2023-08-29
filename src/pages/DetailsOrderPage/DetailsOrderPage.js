@@ -7,8 +7,6 @@ import * as OrderService from '~/services/OrderService';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-import Button from '~/components/Button';
-import { useEffect } from 'react';
 import { orderContant } from '~/contant';
 
 const cx = classNames.bind(styles);

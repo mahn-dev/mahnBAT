@@ -2,7 +2,7 @@ import { Form, Space, Upload } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { DeleteOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons';
 
-import Button from '~/components/Button';
+import ButtonComponent from '~/components/ButtonComponent';
 import ChartComponent from '~/components/ChartComponent';
 import TableComponent from '~/components/TableComponent';
 import DrawerComponent from '~/components/DrawerComponent';
@@ -149,7 +149,7 @@ function AdminOrder() {
                     }}
                 />
                 <Space>
-                    <Button
+                    <ButtonComponent
                         primary
                         onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
                         style={{
@@ -157,8 +157,8 @@ function AdminOrder() {
                         }}
                     >
                         Search
-                    </Button>
-                    <Button
+                    </ButtonComponent>
+                    <ButtonComponent
                         primary
                         onClick={() => clearFilters && handleReset(clearFilters)}
                         style={{
@@ -166,16 +166,16 @@ function AdminOrder() {
                         }}
                     >
                         Reset
-                    </Button>
+                    </ButtonComponent>
 
-                    <Button
+                    <ButtonComponent
                         primary
                         onClick={() => {
                             close();
                         }}
                     >
                         close
-                    </Button>
+                    </ButtonComponent>
                 </Space>
             </div>
         ),
@@ -450,7 +450,7 @@ function AdminOrder() {
                         ]}
                     >
                         <Upload onChange={handleOnChangeImageDetails} maxCount={1}>
-                            <Button outline>Chọn ảnh</Button>
+                            <ButtonComponent outline>Chọn ảnh</ButtonComponent>
                             {stateUserDetails?.avatar && (
                                 <img
                                     src={stateUserDetails?.avatar}
@@ -472,9 +472,9 @@ function AdminOrder() {
                             span: 16,
                         }}
                     >
-                        <Button primary htmlType="submit">
+                        <ButtonComponent primary htmlType="submit">
                             Update
-                        </Button>
+                        </ButtonComponent>
                     </Form.Item>
                 </Form>
             </DrawerComponent>

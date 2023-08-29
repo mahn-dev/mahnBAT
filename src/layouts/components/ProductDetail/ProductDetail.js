@@ -2,8 +2,8 @@
 import classNames from 'classnames/bind';
 import styles from './ProductDetail.module.scss';
 
-import Image from '~/components/Image';
-import Button from '~/components/Button';
+import ImageComponent from '~/components/ImageComponent';
+import ButtonComponent from '~/components/ButtonComponent';
 import { CartBoxIcon, CartIcon } from '~/components/Icons';
 import * as ProductService from '~/services/ProductService';
 
@@ -14,7 +14,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { addOrderProduct, resetOrder } from '~/redux/slice/orderSlice';
 import { convertPrice } from '~/utils';
 import { useEffect } from 'react';
-import * as toast from '~/components/ToastMessage';
+import * as toast from '~/components/ToastMessageComponent';
 import { ToastContainer } from 'react-toastify';
 const cx = classNames.bind(styles);
 
@@ -109,21 +109,21 @@ const ProductDetail = ({ idProduct }) => {
         <div className={cx('wrapper')}>
             <ToastContainer />
             <div className={cx('product-img')}>
-                <Image className={cx('product-img-large')} src={productDetails?.image} />
+                <ImageComponent className={cx('product-img-large')} src={productDetails?.image} />
                 <div className={cx('product-sub-img')}>
-                    <Image
+                    <ImageComponent
                         className={cx('product-img-small')}
                         src="https://klbtheme.com/partdo/wp-content/uploads/2022/10/1-18.jpg"
                     />
-                    <Image
+                    <ImageComponent
                         className={cx('product-img-small')}
                         src="https://klbtheme.com/partdo/wp-content/uploads/2022/10/3-16.jpg"
                     />
-                    <Image
+                    <ImageComponent
                         className={cx('product-img-small')}
                         src="https://klbtheme.com/partdo/wp-content/uploads/2022/10/3-16.jpg"
                     />
-                    <Image
+                    <ImageComponent
                         className={cx('product-img-small')}
                         src="https://klbtheme.com/partdo/wp-content/uploads/2022/10/3-16.jpg"
                     />
@@ -149,12 +149,12 @@ const ProductDetail = ({ idProduct }) => {
                 </ul>
                 <div className={cx('action')}>
                     <div className={cx('action-input')}>
-                        <Button
+                        <ButtonComponent
                             disabled={numProduct == 0}
                             onClick={() => handleChangeCount('decrease', numProduct === 1)}
                         >
                             -
-                        </Button>
+                        </ButtonComponent>
                         <input
                             min={1}
                             max={productDetails?.countInStock}
@@ -164,7 +164,7 @@ const ProductDetail = ({ idProduct }) => {
                             value={numProduct}
                             onChange={handleChange}
                         />
-                        <Button
+                        <ButtonComponent
                             // disabled={
                             //     productDetails?.countInStock === numProduct || productDetails?.countInStock < numProduct
                             // }
@@ -174,9 +174,9 @@ const ProductDetail = ({ idProduct }) => {
                             onClick={() => handleChangeCount('increase', numProduct === productDetails?.countInStock)}
                         >
                             +
-                        </Button>
+                        </ButtonComponent>
                     </div>
-                    <Button
+                    <ButtonComponent
                         onClick={handleAddOrderProduct}
                         leftIcon={<CartIcon width={'2.4rem'} height={'2.4rem'} />}
                         className={cx('buy-button')}
@@ -185,7 +185,7 @@ const ProductDetail = ({ idProduct }) => {
                         <span className={cx('buy-button-text')}>
                             {errLimitOrder ? 'Sản phẩm đã hết hàng' : 'Mua ngay'}
                         </span>
-                    </Button>
+                    </ButtonComponent>
                     {/* {errLimitOrder && 'Sản phẩm đã hết hàng'} */}
                 </div>
             </div>

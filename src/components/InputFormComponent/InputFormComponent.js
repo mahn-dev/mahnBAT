@@ -1,9 +1,9 @@
 import classNames from 'classnames/bind';
-import styles from './InputForm.module.scss';
+import styles from './InputFormComponent.module.scss';
 
 const cx = classNames.bind(styles);
 
-function InputForm(props) {
+function InputFormComponent(props) {
     const handleOnChangeInput = (e) => {
         props.onChange(e.target.value);
     };
@@ -19,4 +19,4 @@ function InputForm(props) {
     );
 }
 
-export default InputForm;
+export default InputFormComponent;

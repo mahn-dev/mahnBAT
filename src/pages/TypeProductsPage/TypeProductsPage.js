@@ -2,8 +2,8 @@ import classNames from 'classnames/bind';
 import styles from './TypeProductsPage.module.scss';
 
 import FilterNavbar from '~/layouts/components/FilterNavbar';
-import CartProducts from '~/components/CardProducts';
-import Button from '~/components/Button';
+import CardProductComponent from '~/components/CardProductComponent';
+import ButtonComponent from '~/components/ButtonComponent';
 import { useLocation } from 'react-router-dom';
 import * as ProductService from '~/services/ProductService';
 import { useEffect } from 'react';
@@ -50,7 +50,7 @@ function TypeProducts() {
                 <div className={cx('container')}>
                     {products?.map((product) => {
                         return (
-                            <CartProducts
+                            <CardProductComponent
                                 key={product._id}
                                 id={product._id}
                                 countInStock={product.countInStock}
@@ -72,29 +72,29 @@ function TypeProducts() {
             />
             {/* <ul className={cx('pagination')}>
                 <li className={cx('pagination-item')}>
-                    <Button primary className={cx('pagination-btn')}>
+                    <ButtonComponent primary className={cx('pagination-btn')}>
                         &lt;
-                    </Button>
+                    </ButtonComponent>
                 </li>
                 <li className={cx('pagination-item')}>
-                    <Button primary className={cx('pagination-btn')}>
+                    <ButtonComponent primary className={cx('pagination-btn')}>
                         1
-                    </Button>
+                    </ButtonComponent>
                 </li>
                 <li className={cx('pagination-item')}>
-                    <Button primary className={cx('pagination-btn')}>
+                    <ButtonComponent primary className={cx('pagination-btn')}>
                         2
-                    </Button>
+                    </ButtonComponent>
                 </li>
                 <li className={cx('pagination-item')}>
-                    <Button primary className={cx('pagination-btn')}>
+                    <ButtonComponent primary className={cx('pagination-btn')}>
                         3
-                    </Button>
+                    </ButtonComponent>
                 </li>
                 <li className={cx('pagination-item')}>
-                    <Button primary className={cx('pagination-btn')}>
+                    <ButtonComponent primary className={cx('pagination-btn')}>
                         &gt;
-                    </Button>
+                    </ButtonComponent>
                 </li>
             </ul> */}
         </div>

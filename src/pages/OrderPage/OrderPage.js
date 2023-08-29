@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import styles from './OrderPage.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Button from '~/components/Button';
+import ButtonComponent from '~/components/ButtonComponent';
 import ModalComponent from '~/components/ModalComponent';
 import { useMutationHooks } from '~/hooks/useMutationHook';
 import * as UserService from '~/services/UserService';
@@ -19,8 +19,8 @@ import { Checkbox, Form } from 'antd';
 import { useEffect, useState } from 'react';
 import { convertPrice } from '~/utils';
 import { useMemo } from 'react';
-import InputComponent from '~/components/InputComponent';
-import * as toast from '~/components/ToastMessage';
+import InputFormComponent from '~/components/InputFormComponent';
+import * as toast from '~/components/ToastMessageComponent';
 import { ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
@@ -29,6 +29,10 @@ const cx = classNames.bind(styles);
 function OrderPage() {
     const order = useSelector((state) => state.order);
     const user = useSelector((state) => state.user);
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState('');
+
     const [listChecked, setListChecked] = useState([]);
     const [isOpenModalUpdateInfo, setIsOpenModalUpdateInfo] = useState(false);
     const [stateUserDetails, setStateUserDetails] = useState({
@@ -40,6 +44,22 @@ function OrderPage() {
     const navigate = useNavigate();
     const [form] = Form.useForm();
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        setName(user?.name);
+        setPhone(user?.phone);
+        setAddress(user?.address);
+    }, [user]);
+
+    const handleOnChangeName = (value) => {
+        setName(value);
+    };
+    const handleOnChangePhone = (value) => {
+        setPhone(value);
+    };
+    const handleOnChangeAddress = (value) => {
+        setAddress(value);
+    };
 
     const handleChangeCheck = (e) => {
         if (listChecked.includes(e.target.value)) {
@@ -158,10 +178,27 @@ function OrderPage() {
     };
 
     const handleUpdateInfoUser = () => {
-        const { name, phone, address } = stateUserDetails;
+        // const { name, phone, address } = stateUserDetails;
         if (name && phone && address) {
+            // mutationUpdate.mutate(
+            //     { id: user?.id, token: user?.access_token, ...stateUserDetails },
+            //     {
+            //         onSuccess: () => {
+            //             dispatch(updateUser({ name, phone, address }));
+            //             setIsOpenModalUpdateInfo(false);
+            //         },
+            //     },
+            // );
+
             mutationUpdate.mutate(
-                { id: user?.id, token: user?.access_token, ...stateUserDetails },
+                {
+                    id: user?.id,
+                    name,
+                    phone,
+                    address,
+                    access_token: user?.access_token,
+                    // ...stateUserDetails,
+                },
                 {
                     onSuccess: () => {
                         dispatch(updateUser({ name, phone, address }));
@@ -172,13 +209,14 @@ function OrderPage() {
         }
     };
 
-    const handleOnChangeDetails = (e) => {
-        setStateUserDetails({
-            ...stateUserDetails,
-            [e.target.name]: e.target.value,
-        });
-    };
+    // const handleOnChangeDetails = (e) => {
+    //     setStateUserDetails({
+    //         ...stateUserDetails,
+    //         [e.target.name]: e.target.value,
+    //     });
+    // };
 
+    console.log(stateUserDetails);
     return (
         <div className={cx('wrapper')}>
             <ToastContainer />
@@ -189,9 +227,9 @@ function OrderPage() {
                 value={order?.product}
             ></Checkbox>
             <span>Có {order?.orderItems?.length} sản phẩm</span>
-            <Button outline onClick={handleDeleteAllOrder}>
+            <ButtonComponent outline onClick={handleDeleteAllOrder}>
                 Xoá tất cả
-            </Button>
+            </ButtonComponent>
             {order?.orderItems?.map((order) => {
                 return (
                     <div key={order?.product}>
@@ -225,47 +263,49 @@ function OrderPage() {
                         <div>Giá sản phẩm: {convertPrice(order?.price)}</div>
                         <div>Số lượng: {order?.amount}</div>
                         <div className={cx('action-input')}>
-                            <Button onClick={() => handleChangeCount('decrease', order?.product, order?.amount === 1)}>
+                            <ButtonComponent
+                                onClick={() => handleChangeCount('decrease', order?.product, order?.amount === 1)}
+                            >
                                 -
-                            </Button>
+                            </ButtonComponent>
                             <input
                                 min={1}
                                 max={order?.countInStock}
                                 placeholder="1"
                                 className={cx('input')}
                                 type="number"
-                                defaultValue={order?.amount}
+                                // defaultValue={order?.amount}
                                 value={order?.amount}
                                 // onChange={handleChange}
                             />
-                            <Button
+                            <ButtonComponent
                                 onClick={() =>
                                     handleChangeCount('increase', order?.product, order?.amount === order?.countInStock)
                                 }
                             >
                                 +
-                            </Button>
+                            </ButtonComponent>
                         </div>
                         <div>Thành tiền: {convertPrice(order?.price * order?.amount)}</div>
-                        <Button outline onClick={() => handleDeleteOrder(order?.product)}>
+                        <ButtonComponent outline onClick={() => handleDeleteOrder(order?.product)}>
                             Xoá
-                        </Button>
+                        </ButtonComponent>
                     </div>
                 );
             })}
             <div>
                 <div>
                     <span>Địa chỉ giao hàng: {user?.address}</span>
-                    <Button outline onClick={handleChangeAddress}>
+                    <ButtonComponent outline onClick={handleChangeAddress}>
                         Đổi địa chỉ
-                    </Button>
+                    </ButtonComponent>
                 </div>
                 <span>Tạm tính: {convertPrice(priceMemo)}</span>
                 <span>Phí vận chuyển: {convertPrice(deliveryPriceMemo)}</span>
                 <span>Tổng cộng: {convertPrice(totalPriceMemo)}</span>
-                <Button primary onClick={() => handleAddCart()}>
+                <ButtonComponent primary onClick={() => handleAddCart()}>
                     Mua hàng
-                </Button>
+                </ButtonComponent>
             </div>
             <ModalComponent
                 title="Cập nhật thông tin giao hàng"
@@ -298,7 +338,7 @@ function OrderPage() {
                             },
                         ]}
                     >
-                        <InputComponent value={stateUserDetails.name} onChange={handleOnChangeDetails} name="name" />
+                        <InputFormComponent value={stateUserDetails?.name} onChange={handleOnChangeName} name="name" />
                     </Form.Item>
 
                     <Form.Item
@@ -311,7 +351,11 @@ function OrderPage() {
                             },
                         ]}
                     >
-                        <InputComponent value={stateUserDetails.phone} onChange={handleOnChangeDetails} name="phone" />
+                        <InputFormComponent
+                            value={stateUserDetails?.phone}
+                            onChange={handleOnChangePhone}
+                            name="phone"
+                        />
                     </Form.Item>
                     <Form.Item
                         label="Địa chỉ"
@@ -323,9 +367,9 @@ function OrderPage() {
                             },
                         ]}
                     >
-                        <InputComponent
-                            value={stateUserDetails.address}
-                            onChange={handleOnChangeDetails}
+                        <InputFormComponent
+                            value={stateUserDetails?.address}
+                            onChange={handleOnChangeAddress}
                             name="address"
                         />
                     </Form.Item>

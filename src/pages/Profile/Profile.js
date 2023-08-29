@@ -5,14 +5,14 @@ import { ToastContainer } from 'react-toastify';
 import classNames from 'classnames/bind';
 import styles from './Profile.module.scss';
 
-import InputForm from '~/components/InputForm';
-import Button from '~/components/Button';
+import InputFormComponent from '~/components/InputFormComponent';
+import ButtonComponent from '~/components/ButtonComponent';
 import * as UserService from '~/services/UserService';
 import { updateUser } from '~/redux/slice/userSlice';
 import { Upload } from 'antd';
 import { getBase64 } from '~/utils';
 import { UploadImageIcon } from '~/components/Icons';
-import * as toast from '~/components/ToastMessage';
+import * as toast from '~/components/ToastMessageComponent';
 
 const cx = classNames.bind(styles);
 
@@ -32,7 +32,6 @@ function Profile() {
 
     const dispatch = useDispatch();
     const { data, isSuccess, isError } = mutation;
-
     useEffect(() => {
         setUsername(user?.username);
         setName(user?.name);
@@ -44,7 +43,7 @@ function Profile() {
 
     useEffect(() => {
         if (isSuccess) {
-            toast.success();
+            toast.success('Lưu thông tin thành công! Vui lòng F5 để cập nhật.');
             handleGetDetailsUser(user?.id, user?.access_token);
         } else if (isError) {
             toast.error();
@@ -95,10 +94,10 @@ function Profile() {
             <h3>Trang thông tin người dùng</h3>
             <div>
                 <div className={cx('form')}>
-                    <label className={cx('form-label')} htmlFor="name">
+                    <label className={cx('form-label')} for="name">
                         Tên người dùng*
                     </label>
-                    <InputForm
+                    <InputFormComponent
                         className={cx('form-input')}
                         id="name"
                         placeholder="Nhập tên tài khoản"
@@ -107,10 +106,10 @@ function Profile() {
                     />
                 </div>
                 <div className={cx('form')}>
-                    <label className={cx('form-label')} htmlFor="email">
+                    <label className={cx('form-label')} for="email">
                         Email
                     </label>
-                    <InputForm
+                    <InputFormComponent
                         className={cx('form-input')}
                         id="email"
                         placeholder="Nhập email"
@@ -119,10 +118,10 @@ function Profile() {
                     />
                 </div>
                 <div className={cx('form')}>
-                    <label className={cx('form-label')} htmlFor="phone">
+                    <label className={cx('form-label')} for="phone">
                         Số điện thoại*
                     </label>
-                    <InputForm
+                    <InputFormComponent
                         className={cx('form-input')}
                         id="phone"
                         placeholder="Nhập số điện thoại"
@@ -131,10 +130,10 @@ function Profile() {
                     />
                 </div>
                 <div className={cx('form')}>
-                    <label className={cx('form-label')} htmlFor="address">
+                    <label className={cx('form-label')} for="address">
                         Địa chỉ nhận hàng*
                     </label>
-                    <InputForm
+                    <InputFormComponent
                         className={cx('form-input')}
                         id="address"
                         placeholder="Nhập địa chỉ"
@@ -143,13 +142,13 @@ function Profile() {
                     />
                 </div>
                 <div className={cx('form')}>
-                    <label className={cx('form-label')} htmlFor="avatar">
+                    <label className={cx('form-label')} for="avatar">
                         Avatar
                     </label>
                     <Upload className={cx('upload')} onChange={handleOnChangeAvatar} maxCount={1}>
-                        <Button leftIcon={<UploadImageIcon />} outline>
+                        <ButtonComponent leftIcon={<UploadImageIcon />} outline>
                             Upload
-                        </Button>
+                        </ButtonComponent>
                     </Upload>
                     {avatar && (
                         <img
@@ -166,9 +165,9 @@ function Profile() {
                         />
                     )}
                 </div>
-                <Button onClick={handleUpdate} primary>
+                <ButtonComponent onClick={handleUpdate} primary>
                     Lưu
-                </Button>
+                </ButtonComponent>
             </div>
         </div>
     );

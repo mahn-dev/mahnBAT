@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { DeleteOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons';
 
 import { SearchIcon, UndoIcon, CloseIcon } from '~/components/Icons';
-import Button from '~/components/Button';
+import ButtonComponent from '~/components/ButtonComponent';
 import TableComponent from '~/components/TableComponent';
 import DrawerComponent from '~/components/DrawerComponent';
 import InputComponent from '~/components/InputComponent';
@@ -172,20 +172,20 @@ function AdminProduct() {
                     }}
                 />
                 <Space>
-                    <Button primary onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}>
+                    <ButtonComponent primary onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}>
                         <SearchIcon />
-                    </Button>
-                    <Button primary onClick={() => clearFilters && handleReset(clearFilters)}>
+                    </ButtonComponent>
+                    <ButtonComponent primary onClick={() => clearFilters && handleReset(clearFilters)}>
                         <UndoIcon />
-                    </Button>
-                    <Button
+                    </ButtonComponent>
+                    <ButtonComponent
                         outline
                         onClick={() => {
                             close();
                         }}
                     >
                         <CloseIcon />
-                    </Button>
+                    </ButtonComponent>
                 </Space>
             </div>
         ),
@@ -382,14 +382,14 @@ function AdminProduct() {
     return (
         <div>
             <h2>Quản lý sản phẩm</h2>
-            <Button
+            <ButtonComponent
                 outline
                 onClick={() => {
                     setIsModalOpen(true);
                 }}
             >
                 Add
-            </Button>
+            </ButtonComponent>
             <TableComponent
                 handleDeleteMany={handleDeleteManyProducts}
                 columns={columns}
@@ -524,7 +524,7 @@ function AdminProduct() {
                         ]}
                     >
                         <Upload onChange={handleOnChangeImage} maxCount={1}>
-                            <Button outline>Chọn ảnh</Button>
+                            <ButtonComponent outline>Chọn ảnh</ButtonComponent>
                             {stateProduct?.image && (
                                 <img
                                     src={stateProduct?.image}
@@ -546,7 +546,7 @@ function AdminProduct() {
                             span: 16,
                         }}
                     >
-                        <Button primary>Submit</Button>
+                        <ButtonComponent primary>Submit</ButtonComponent>
                     </Form.Item> */}
                 </Form>
             </ModalComponent>
@@ -673,7 +673,7 @@ function AdminProduct() {
                         ]}
                     >
                         <Upload onChange={handleOnChangeImageDetails} maxCount={1}>
-                            <Button outline>Chọn ảnh</Button>
+                            <ButtonComponent outline>Chọn ảnh</ButtonComponent>
                             {stateProductDetails?.image && (
                                 <img
                                     src={stateProductDetails?.image}
@@ -695,9 +695,9 @@ function AdminProduct() {
                             span: 16,
                         }}
                     >
-                        <Button primary htmlType="submit">
+                        <ButtonComponent primary htmlType="submit">
                             Update
-                        </Button>
+                        </ButtonComponent>
                     </Form.Item>
                 </Form>
             </DrawerComponent>

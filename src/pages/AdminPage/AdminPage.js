@@ -9,7 +9,7 @@ import { getItem } from '~/utils';
 import AdminUser from '~/layouts/components/AdminUser';
 import AdminProduct from '~/layouts/components/AdminProduct';
 import AdminOrder from '~/layouts/components/AdminOrder';
-import Button from '~/components/Button';
+import ButtonComponent from '~/components/ButtonComponent';
 import { HomeIcon, UserIcon, CartIcon } from '~/components/Icons';
 import { useSelector } from 'react-redux';
 import ChartComponent from '~/components/ChartComponent';
@@ -60,9 +60,9 @@ const AdminPage = () => {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('side-menu')}>
-                <Button to={config.routes.home} primary>
+                <ButtonComponent to={config.routes.home} primary>
                     <HomeIcon />
-                </Button>
+                </ButtonComponent>
                 <div className={cx('username')}>
                     <span>{userName}</span>
                     <span>{email}</span>
@@ -70,10 +70,13 @@ const AdminPage = () => {
                 <Menu theme="dark" className={cx('menu')} items={items} onClick={handleOnClick} />
             </div>
             <div className={cx('content')}>
-                <div style={{ height: '200px', width: '200px' }}>
-                    <ChartComponent data={orders?.data} />
-                </div>
-                {renderPage(keySelected)}
+                {!keySelected ? (
+                    <div style={{ height: '200px', width: '200px' }}>
+                        <ChartComponent data={orders?.data} />
+                    </div>
+                ) : (
+                    <div>{renderPage(keySelected)}</div>
+                )}
             </div>
         </div>
     );

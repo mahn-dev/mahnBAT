@@ -6,12 +6,12 @@ import slider1 from '~/assets/sliderImg/slider-01.jpg';
 import slider2 from '~/assets/sliderImg/slider-02.jpg';
 import slider3 from '~/assets/sliderImg/slider-04.jpg';
 import { SliderComponent } from '~/components/SliderComponent/SliderComponent';
-import CartProducts from '~/components/CardProducts';
+import CardProductComponent from '~/components/CardProductComponent';
 import * as ProductService from '~/services/ProductService';
 import Sidebar from '~/layouts/components/Sidebar';
 import BusinessPartners from '~/layouts/components/BusinessPartners';
 import { useEffect, useState } from 'react';
-import Loading from '../../components/Loading/Loading';
+import LoadingComponent from '~/components/LoadingComponent';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -116,21 +116,21 @@ function Home() {
             <div>
                 <h2 className={cx('heading')}>Sản phẩm nổi bật</h2>
                 {isLoading ? (
-                    <Loading />
+                    <LoadingComponent />
                 ) : (
                     <>
                         <div className={cx('slider-product')}>
                             <Slider {...settings}>
                                 {products?.data?.map((product) => (
-                                    <CartProducts
+                                    <CardProductComponent
                                         className={cx('cart-product')}
-                                        key={product._id}
-                                        id={product._id}
-                                        countInStock={product.countInStock}
-                                        image={product.image}
-                                        name={product.name}
-                                        percentDiscount={product.percentDiscount}
-                                        price={product.price}
+                                        key={product?._id}
+                                        id={product?._id}
+                                        countInStock={product?.countInStock}
+                                        image={product?.image}
+                                        name={product?.name}
+                                        percentDiscount={product?.percentDiscount}
+                                        price={product?.price}
                                     />
                                 ))}
                             </Slider>
@@ -142,13 +142,13 @@ function Home() {
             <div>
                 <h2 className={cx('heading')}>Pin dòng xả cao chuyên dùng cho máy công cụ</h2>
                 {isLoading ? (
-                    <Loading />
+                    <LoadingComponent />
                 ) : (
                     <>
                         <div className={cx('product')}>
                             {/* <Slider {...settings}> */}
                             {typeProducts?.map((typeProduct) => (
-                                <CartProducts
+                                <CardProductComponent
                                     className={cx('cart-product')}
                                     key={typeProduct._id}
                                     id={typeProduct._id}

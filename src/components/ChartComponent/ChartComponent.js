@@ -1,4 +1,4 @@
-import { PieChart, Pie, Sector, Cell, Tooltip, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import { convertChartData } from '~/utils';
 
 function ChartComponent({ data }) {

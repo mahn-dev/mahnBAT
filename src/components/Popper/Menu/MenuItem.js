@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import Button from '~/components/Button';
+import ButtonComponent from '~/components/ButtonComponent';
 import classNames from 'classnames/bind';
 import styles from './Menu.module.scss';
 
@@ -10,9 +10,9 @@ function MenuItem({ data, onClick }) {
         separate: data.separate,
     });
     return (
-        <Button className={classes} leftIcon={data.icon} to={data.to} onClick={data.onClick}>
+        <ButtonComponent className={classes} leftIcon={data.icon} to={data.to} onClick={data.onClick}>
             {data.title}
-        </Button>
+        </ButtonComponent>
     );
 }
 

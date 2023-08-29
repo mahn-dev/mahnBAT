@@ -5,7 +5,7 @@ import ProductDetail from '~/layouts/components/ProductDetail';
 import { Link, useParams } from 'react-router-dom';
 import * as ProductService from '~/services/ProductService';
 import { useQuery } from '@tanstack/react-query';
-import TypeProduct from '~/components/TypeProduct';
+import TypeProductComponent from '~/components/TypeProductComponent';
 
 const cx = classNames.bind(styles);
 
@@ -28,7 +28,7 @@ function ProductDetailPage() {
                     Trang chủ
                 </Link>
                 &gt; <Link to={'/products'}>Tất cả sản phẩm</Link> &gt;
-                <TypeProduct
+                <TypeProductComponent
                     className={cx('type-product-link')}
                     typeProduct={productDetails?.type}
                     key={productDetails?.type}

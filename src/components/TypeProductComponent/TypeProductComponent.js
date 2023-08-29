@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-function TypeProduct({ typeProduct }) {
+function TypeProductComponent({ typeProduct }) {
     const navigate = useNavigate();
     const handleNavigateType = (type) => {
         navigate(
@@ -28,4 +28,4 @@ function TypeProduct({ typeProduct }) {
     );
 }
 
-export default TypeProduct;
+export default TypeProductComponent;

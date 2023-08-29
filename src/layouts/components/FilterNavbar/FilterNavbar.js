@@ -3,7 +3,7 @@ import styles from './FilterNavbar.module.scss';
 import { useState, useEffect } from 'react';
 
 import * as ProductService from '~/services/ProductService';
-import TypeProduct from '~/components/TypeProduct';
+import TypeProductComponent from '~/components/TypeProductComponent';
 
 const cx = classNames.bind(styles);
 
@@ -26,7 +26,7 @@ function FilterNavbar() {
         <div className={cx('wrapper')}>
             <h3 className={cx('filter-heading')}>Danh mục sản phẩm</h3>
             {typeProduct.map((item) => {
-                return <TypeProduct className={cx('type-product-link')} typeProduct={item} key={item} />;
+                return <TypeProductComponent className={cx('type-product-link')} typeProduct={item} key={item} />;
             })}
         </div>
     );
